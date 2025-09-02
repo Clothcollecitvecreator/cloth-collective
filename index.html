@@ -27,12 +27,12 @@
     /* Base */
     *{ box-sizing:border-box }
     html,body{ height:100% }
-    html { -webkit-text-size-adjust: 100%; } /* predictable mobile text scaling */
+    html { -webkit-text-size-adjust: 100%; }
     body{
       margin:0; background:var(--bg); color:var(--ink);
       font-family:'Urbanist',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden; /* prevent stray horizontal scroll */
+      overflow-x:hidden;
     }
 
     /* Subtle animated grain/noise */
@@ -40,11 +40,11 @@
     .noise:before{
       content:""; position:absolute; inset:-200%;
       background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>');
-      animation:grain 10s steps(10) infinite; /* slightly slower for power saving */
+      animation:grain 10s steps(10) infinite;
     }
     @keyframes grain{ 0%{transform:translate(0,0)} 100%{transform:translate(10%,10%)} }
 
-    /* Header with contact (left) + socials (right) */
+    /* Header */
     header{
       position:sticky; top:0; z-index:10;
       backdrop-filter:saturate(180%) blur(8px);
@@ -59,8 +59,6 @@
       color:var(--accentDim); font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase;
       margin-right:2px;
     }
-
-    /* Header alignment */
     .bar .contact-group,
     .bar .social{
       display:flex; align-items:center; gap:12px;
@@ -78,13 +76,10 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{
-      width:80%;
-      max-width:900px;
-      height:auto;
+      width:80%; max-width:900px; height:auto;
       margin-bottom:20px;
       filter: drop-shadow(0 0 20px rgba(255,255,255,0.05));
     }
-
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
 
@@ -136,7 +131,8 @@
     .mystery:hover{ transform:translateY(-4px); border-color:#2a2a2a; filter:brightness(1.05); }
     .qmark{
       font-family:'Shrikhand', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      font-size: clamp(42px, 7vw, 72px); color:#e6e6e6; opacity:.9; transition: opacity .25s ease, transform .25s ease;
+      font-size: clamp(42px, 7vw, 72px); color:#e6e6e6; opacity:.9;
+      transition: opacity .25s ease, transform .25s ease;
     }
     .secret{
       position:absolute; inset:0; display:grid; place-items:center; color:#fff; text-transform:uppercase; font-weight:900; letter-spacing:2px;
@@ -160,166 +156,108 @@
     [data-hydrate] { visibility:hidden; }
     [data-hydrate].ready { visibility:visible; }
 
-    /* ====== RESPONSIVE / MOBILE OPTIMIZATIONS ====== */
-
-    /* Hero logo scales up on phones but stays capped on tablets */
+    /* ===== RESPONSIVE OPTIMIZATIONS ===== */
     .hero { padding: 56px 0 28px; }
-    .hero-logo{
-      width: min(92vw, 780px);
-      max-width:900px;
-      height: auto;
-      margin-bottom: 16px;
-    }
+    .hero-logo{ width: min(92vw, 780px); margin-bottom:16px; }
 
-    /* Tablet and down: stack CTAs */
     @media (max-width: 900px){
       .cta-row > .tile{ grid-column:span 12; }
-      .cta-row { gap: 14px; }
+      .cta-row { gap:14px; }
     }
 
-    /* Phones */
     @media (max-width: 640px){
-      header { height: 56px; }
-      .bar { padding: 10px 14px; gap: 8px; }
-      .contact-label, .follow-label { display: none; } /* free up header space */
-      .bar .contact-group, .bar .social { gap: 10px; }
-      .icon-link svg, .social a svg { width: 18px; height: 18px; }
+      header { height:56px; }
+      .bar { padding:10px 14px; gap:8px; }
+      .contact-label, .follow-label { display:none; }
+      .bar .contact-group, .bar .social { gap:10px; }
+      .icon-link svg, .social a svg { width:18px; height:18px; }
 
-      .wrap{ padding: 20px 14px 56px; }
-
-      .intro-blurb p{ font-size:16px; line-height:1.6; }
-
-      .countdown { gap: 8px; }
-      .pill{ padding: 8px 10px; font-size: 14px; letter-spacing:.4px; }
-
-      .progress{ width: min(720px, 94vw); height: 12px; }
-
+      .wrap{ padding:20px 14px 56px; }
+      .intro-blurb p{ font-size:16px; }
+      .countdown { gap:8px; }
+      .pill{ padding:8px 10px; font-size:14px; }
+      .progress{ width: min(720px, 94vw); }
       .tile{ padding:16px; }
       .tile h3{ font-size:18px; }
       .tile p{ font-size:14px; }
       .chip{ padding:10px 14px; font-size:14px; }
+
+      /* ✅ 3x2 mystery grid on phones */
+      .mystery-grid{ grid-template-columns: repeat(3, 1fr); gap:12px; }
+      .mystery{ grid-column:span 1; min-height:100px; border-radius:12px; }
+      .qmark{ font-size: clamp(24px, 8vw, 40px); }
+      .secret{ font-size:12px; letter-spacing:1px; }
     }
 
-    /* Mystery grid: 2-across on narrow phones for breathing room */
-    @media (max-width: 600px){
-      .mystery-grid{ grid-template-columns: repeat(2, 1fr); gap:14px; }
-      .mystery{ min-height:140px; border-radius:16px; }
-      .qmark{ font-size: clamp(36px, 10vw, 56px); }
+    @media (max-width: 360px){
+      /* fallback: 2x3 if screen is too narrow */
+      .mystery-grid{ grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* Tight phones (e.g., iPhone SE) */
-    @media (max-width: 380px){
-      .hero { padding-top: 40px; }
-      .foot{ padding: 20px 14px; }
-    }
-
-    /* Performance: disable grain on very small screens if desired */
-    @media (max-width: 480px){
-      .noise{ display:none; } /* comment this out if you want to keep it on all phones */
-    }
-
-    /* Accessibility: respect users who prefer reduced motion */
     @media (prefers-reduced-motion: reduce){
-      .noise:before { animation: none; }
-      .progress > b { transition: none; }
+      .noise:before { animation:none; }
+      .progress > b { transition:none; }
     }
   </style>
 </head>
 <body>
-  <!-- Subtle grain overlay (disabled on very small screens by CSS above) -->
+  <!-- Grain -->
   <div class="noise" aria-hidden="true"></div>
 
   <!-- Header -->
   <header>
     <div class="bar">
-      <!-- Left: Contact -->
-      <div class="contact-group" aria-label="Contact links (header)">
-        <span class="contact-label" aria-hidden="true">Contact</span>
-        <!-- Phone -->
-        <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
-        </a>
-        <!-- Email -->
-        <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
-        </a>
+      <div class="contact-group">
+        <span class="contact-label">Contact</span>
+        <a class="icon-link" href="tel:+13475418555" aria-label="Phone">📞</a>
+        <a class="icon-link" href="mailto:info@cloth-collective.com" aria-label="Email">✉️</a>
       </div>
-
-      <!-- Right: Socials -->
-      <div class="social" aria-label="Social links (header)">
-        <span class="follow-label" aria-hidden="true">Socials</span>
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/></svg>
-        </a>
-        <!-- TikTok -->
-        <a href="https://www.tiktok.com/@clothcollective.nyc" target="_blank" rel="noopener" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12.75 2h3.5a5.25 5.25 0 005.25 5.25v3.5a8.75 8.75 0 01-5.25-1.75v7.75a6.75 6.75 0 11-6.75-6.75h.25v3.5a3.25 3.25 0 103.25 3.25V2z"/></svg>
-        </a>
-        <!-- Snapchat -->
-        <a href="https://www.snapchat.com/add/clothcollective" target="_blank" rel="noopener" aria-label="Snapchat">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c3.4 0 6.2 2.6 6.4 6 .2 2.3.7 3.8 2.6 4.8.6.3.9 1 .7 1.6-.3.8-1 1.1-1.8 1.3-1 .2-1.2.6-1.2.9s.3.6.7.8c.4.2.8.4.9.8.2.5 0 1-.4 1.3-.7.5-2.4.6-3.1.7-.4.6-1.1 1.2-1.9 1.5-.7.3-1.4.4-2.2.4s-1.5-.1-2.2-.4c-.8-.3-1.5-.9-1.9-1.5-.7-.1-2.4-.2-3.1-.7-.4-.3-.6-.8-.4-1.3.1-.4.5-.6.9-.8.4-.2.7-.5.7-.8 0-.3-.2-.7-1.2-.9-.8-.2-1.5-.5-1.8-1.3-.2-.6.1-1.3.7-1.6 1.9-1 2.4-2.5 2.6-4.8.2-3.4 3-6 6.4-6z"/></svg>
-        </a>
+      <div class="social">
+        <span class="follow-label">Socials</span>
+        <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" aria-label="Instagram">📷</a>
+        <a href="https://www.tiktok.com/@clothcollective.nyc" target="_blank" aria-label="TikTok">🎵</a>
+        <a href="https://www.snapchat.com/add/clothcollective" target="_blank" aria-label="Snapchat">👻</a>
       </div>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- HERO -->
-    <section class="hero" id="about">
-      <!-- Big hero logo -->
+    <section class="hero">
       <img src="logo.svg" alt="Cloth Collective" class="hero-logo" />
-
-      <!-- Intro blurb -->
       <div class="intro-blurb">
-        <p>
-          Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban,
+        <p>Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban,
           contemporary, vintage, indie, skate-inspired, and more. We bring together emerging and established
-          labels that blend creativity, quality, and culture into wearable pieces for today’s audience.
-        </p>
+          labels that blend creativity, quality, and culture into wearable pieces for today’s audience.</p>
       </div>
-
-      <!-- Countdown -->
       <div class="countdown" id="countdown" data-hydrate>
         <span class="pill" id="dd">00</span>
         <span class="pill" id="hh">00</span>
         <span class="pill" id="mm">00</span>
         <span class="pill" id="ss">00</span>
       </div>
-
-      <!-- Progress -->
-      <div class="progress" aria-label="Time until launch">
-        <b id="progressBar" style="width:0%"></b>
+      <div class="progress">
+        <b id="progressBar"></b>
         <small id="progressLabel">0% to launch</small>
       </div>
     </section>
 
-    <!-- Dual CTAs -->
     <section class="cta-row">
-      <!-- Brands -->
       <div class="tile">
         <div>
           <h3>Bring your label to the Collective</h3>
           <p>A platform built to showcase emerging labels.</p>
         </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank" rel="noopener" aria-label="Apply to join Cloth Collective as a brand">
-          Apply today →
-        </a>
+        <a class="chip" href="#">Apply today →</a>
       </div>
-
-      <!-- Consumers -->
       <div class="tile">
         <div>
           <h3>Get launch updates</h3>
           <p>Be the first to know about drops and launch updates.</p>
         </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank" rel="noopener">
-          Stay in the loop →
-        </a>
+        <a class="chip" href="#">Stay in the loop →</a>
       </div>
     </section>
 
-    <!-- Featured Labels (mystery grid) -->
     <section>
       <h2 class="section-title">Featured labels at launch</h2>
       <div class="mystery-grid">
@@ -333,7 +271,6 @@
     </section>
   </main>
 
-  <!-- Footer (minimal) -->
   <footer>
     <div class="foot">
       <small>© <span id="yr"></span> Cloth Collective. All rights reserved.</small>
@@ -341,61 +278,30 @@
   </footer>
 
   <script>
-    // ======= CONFIG =======
-    const LAUNCH_ISO = '2025-11-13T17:00:00-05:00'; // Nov 13, 2025 @ 5:00pm ET
-    const START_ISO  = '2025-09-01T00:00:00-04:00'; // Sep 1, 2025 @ 12:00am ET
-
-    // ======= COUNTDOWN =======
-    const dd = document.getElementById('dd');
-    const hh = document.getElementById('hh');
-    const mm = document.getElementById('mm');
-    const ss = document.getElementById('ss');
-    const hydrate = document.getElementById('countdown');
-    const bar = document.getElementById('progressBar');
-    const label = document.getElementById('progressLabel');
-
-    const launch = new Date(LAUNCH_ISO);
-    const start  = new Date(START_ISO);
+    const LAUNCH_ISO = '2025-11-13T17:00:00-05:00';
+    const START_ISO  = '2025-09-01T00:00:00-04:00';
+    const dd=document.getElementById('dd'),
+          hh=document.getElementById('hh'),
+          mm=document.getElementById('mm'),
+          ss=document.getElementById('ss'),
+          hydrate=document.getElementById('countdown'),
+          bar=document.getElementById('progressBar'),
+          label=document.getElementById('progressLabel');
+    const launch=new Date(LAUNCH_ISO), start=new Date(START_ISO);
 
     function tick(){
-      const now = new Date();
-      const diff = launch - now;
-
-      if (diff <= 0){
-        dd.textContent='00d'; hh.textContent='00h'; mm.textContent='00m'; ss.textContent='00s';
-        label.textContent = 'Live now';
-        bar.style.width = '100%';
-        if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
-        return;
-      }
-
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff / (1000*60*60)) % 24);
-      const m = Math.floor((diff / (1000*60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-
-      dd.textContent = String(d).padStart(2,'0') + 'd';
-      hh.textContent = String(h).padStart(2,'0') + 'h';
-      mm.textContent = String(m).padStart(2,'0') + 'm';
-      ss.textContent = String(s).padStart(2,'0') + 's';
-
-      // progress from START_ISO to LAUNCH_ISO
-      const total = (launch - start);
-      const elapsed = Math.max(0, Math.min(total, now - start));
-      const pct = total > 0 ? (elapsed / total) * 100 : 0;
-
-      bar.style.width = pct.toFixed(3) + '%';
-      label.textContent = `${pct.toFixed(1)}% to launch`;
-      if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
-    }
-
-    tick();
-    setInterval(tick, 1000);
-
-    // Footer year
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
-
-  
+      const now=new Date(), diff=launch-now;
+      if(diff<=0){ dd.textContent='00d'; hh.textContent='00h'; mm.textContent='00m'; ss.textContent='00s';
+        label.textContent='Live now'; bar.style.width='100%';
+        hydrate.classList.add('ready'); return; }
+      const d=Math.floor(diff/(1000*60*60*24)),
+            h=Math.floor((diff/(1000*60*60))%24),
+            m=Math.floor((diff/(1000*60))%60),
+            s=Math.floor((diff/1000)%60);
+      dd.textContent=String(d).padStart(2,'0')+'d';
+      hh.textContent=String(h).padStart(2,'0')+'h';
+      mm.textContent=String(m).padStart(2,'0')+'m';
+      ss.textContent=String(s).padStart(2,'0')+'s';
+      const total=(launch-start), elapsed=Math.max(0,Math.min(total,now-start));
+      const pct=total>0?(elapsed/total)*100:0;
+      bar.style.width=pct.to
