@@ -21,6 +21,8 @@
       --accent:#ffffff;
       --accentDim:#d9d9d9;
       --glow: 0 0 40px rgba(255,255,255,0.06);
+      /* NEW: control header icon size */
+      --icon: 26px; /* tweak if you want bigger/smaller */
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
@@ -46,7 +48,8 @@
       position:sticky; top:0; z-index:10;
       backdrop-filter:saturate(180%) blur(8px);
       background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0));
-      border-bottom:1px solid var(--border); height:64px;
+      border-bottom:1px solid var(--border);
+      height:64px;
     }
     .bar{
       max-width:1120px; margin:0 auto; padding:14px 20px;
@@ -59,11 +62,36 @@
     .bar .contact-group, .bar .social{
       display:flex; align-items:center; gap:12px;
     }
+
+    /* Links + icons */
     .icon-link, .social a{
-      margin-right:0; line-height:1; align-items:center; display:inline-flex; color:#e0e0e0; transition: color .25s ease, filter .25s ease;
+      margin-right:0; line-height:1; align-items:center; display:inline-flex; color:#e0e0e0;
+      transition: color .25s ease, filter .25s ease;
+      text-decoration:none;
     }
     .icon-link:hover, .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
-    .icon-link svg, .social a svg{ width:20px; height:20px; display:block; }
+
+    /* BIGGER ICONS HERE */
+    .icon-link svg, .social a svg{
+      width:var(--icon); height:var(--icon); display:block;
+    }
+
+    /* Show phone number next to phone icon */
+    .icon-link.phone{
+      gap:10px; /* spacing between icon and number */
+    }
+    .phone-number{
+      color:var(--accentDim);
+      font-weight:800;
+      font-size:14px;
+      letter-spacing:.3px;
+      white-space:nowrap; /* keep it on one line */
+      line-height:1;
+      transition: color .25s ease, filter .25s ease;
+    }
+    .icon-link.phone:hover .phone-number{
+      color:#ffffff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+    }
 
     /* Main wrapper */
     .wrap{ max-width:1120px; margin:0 auto; padding:24px 20px 72px; }
@@ -149,19 +177,26 @@
     @media (max-width: 640px){
       header { height:56px; }
       .bar { padding:10px 14px; gap:8px; }
-      .contact-label, .follow-label { display:none; } /* keep icons only */
+
+      .contact-label, .follow-label { display:none; } /* keep icons only on small screens */
       .bar .contact-group, .bar .social { gap:10px; }
-      .icon-link svg, .social a svg { width:18px; height:18px; }
+
+      /* slightly smaller icons on phones for fit */
+      :root{ --icon:22px; }
 
       .wrap{ padding:20px 14px 56px; }
       .intro-blurb p{ font-size:16px; }
       .countdown { gap:8px; }
       .pill{ padding:8px 10px; font-size:14px; }
       .progress{ width: min(720px, 94vw); }
+
       .tile{ padding:16px; }
       .tile h3{ font-size:18px; }
       .tile p{ font-size:14px; }
       .chip{ padding:10px 14px; font-size:14px; }
+
+      /* phone number size on small screens */
+      .phone-number{ font-size:13px; }
     }
 
     /* === FINAL OVERRIDE: keep mystery grid 3×2 on phones === */
@@ -202,9 +237,13 @@
       <!-- Left: Contact -->
       <div class="contact-group" aria-label="Contact links (header)">
         <span class="contact-label" aria-hidden="true">Contact</span>
-        <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
+
+        <!-- PHONE with number (clickable tel:) -->
+        <a class="icon-link phone" href="tel:+13475418555" aria-label="Phone">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
+          <span class="phone-number">+1 (347) 541-8555</span>
         </a>
+
         <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
         </a>
@@ -351,3 +390,4 @@
   </script>
 </body>
 </html>
+
