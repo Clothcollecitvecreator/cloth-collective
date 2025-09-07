@@ -20,13 +20,6 @@
       --border:#1e1e1e;
       --accent:#ffffff;
       --accentDim:#d9d9d9;
-      --glow: 0 0 40px rgba(255,255,255,0.06);
-
-      /* Logo glow controls */
-      --logo-glow-base-1: 0 0 70px rgba(255,255,255,0.55);
-      --logo-glow-base-2: 0 0 140px rgba(255,255,255,0.30);
-      --logo-glow-hover-1: 0 0 95px rgba(255,255,255,0.75);
-      --logo-glow-hover-2: 0 0 180px rgba(255,255,255,0.40);
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
@@ -47,15 +40,35 @@
     @keyframes grain{ 0%{transform:translate(0,0)} 100%{transform:translate(10%,10%)} }
 
     /* Header */
-    header{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(180%) blur(8px); background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0)); border-bottom:1px solid var(--border); height:64px; }
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter:saturate(180%) blur(8px);
+      background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0));
+      border-bottom:1px solid var(--border);
+      height:64px;
+    }
     .bar{ max-width:1120px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .follow-label, .contact-label{ color:var(--accentDim); font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase; margin-right:2px; }
-    .bar .contact-group, .bar .social{ display:flex; align-items:center; gap:12px; }
 
-    /* Bigger icon sizes */
-    .icon-link, .social a{ margin-right:0; line-height:1; align-items:center; display:inline-flex; color:#e0e0e0; transition: color .25s ease, filter .25s ease; }
-    .icon-link:hover, .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
-    .icon-link svg, .social a svg{ width:26px; height:26px; display:block; } /* was 20px */
+    /* Left contact group = icons row + text block */
+    .contact-group{
+      display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    }
+    .contact-icons{
+      display:flex; align-items:center; gap:12px;
+    }
+    .icon-link{ line-height:1; display:inline-flex; color:#e0e0e0; transition: color .25s ease, filter .25s ease; }
+    .icon-link:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+    .icon-link svg{ width:26px; height:26px; display:block; }
+
+    .contact-text{ font-size:13px; line-height:1.4; color:var(--accentDim); }
+    .contact-text a{ color:var(--accentDim); text-decoration:none; transition:color .25s ease; }
+    .contact-text a:hover{ color:#fff; }
+
+    /* Right socials */
+    .social{ display:flex; align-items:center; gap:12px; }
+    .social a{ color:#e0e0e0; display:inline-flex; transition: color .25s ease, filter .25s ease; }
+    .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+    .social a svg{ width:26px; height:26px; display:block; }
 
     /* Main wrapper */
     .wrap{ max-width:1120px; margin:0 auto; padding:24px 20px 72px; }
@@ -63,21 +76,16 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
 
-    /* Constant huge glow on logo + brighter on hover */
+    /* LOGO: outline-only halo via SVG filter (keeps logo crisp) */
     .hero-logo{
-      width:80%;
-      max-width:900px;
+      width:min(92vw, 900px);
       height:auto;
+      display:block;
       margin-bottom:20px;
-      filter:
-        drop-shadow(var(--logo-glow-base-1))
-        drop-shadow(var(--logo-glow-base-2));
-      transition: filter .25s ease;
     }
-    .hero-logo:hover{
-      filter:
-        drop-shadow(var(--logo-glow-hover-1))
-        drop-shadow(var(--logo-glow-hover-2));
+    /* swap to stronger halo on hover */
+    .hero-logo:hover image{
+      filter:url(#outlineGlowHover);
     }
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
@@ -115,20 +123,14 @@
     .foot{ max-width:1120px; margin:0 auto; padding:28px 20px; display:flex; justify-content:center; color:var(--accentDim); }
 
     /* ===== Responsive tweaks ===== */
-    .hero { padding: 56px 0 28px; }
-    .hero-logo{ width: min(92vw, 780px); margin-bottom:16px; }
-
     @media (max-width: 900px){
       .cta-row > .tile{ grid-column:span 12; }
       .cta-row { gap:14px; }
     }
 
     @media (max-width: 640px){
-      header { height:56px; }
-      .bar { padding:10px 14px; gap:8px; }
-      .contact-label, .follow-label { display:none; } /* keep icons only */
-      .bar .contact-group, .bar .social { gap:10px; }
-      /* Bigger than before on mobile too */
+      header { height:auto; }
+      .bar { padding:10px 14px; gap:10px; }
       .icon-link svg, .social a svg { width:22px; height:22px; }
       .wrap{ padding:20px 14px 56px; }
       .intro-blurb p{ font-size:16px; }
@@ -141,7 +143,7 @@
       .chip{ padding:10px 14px; font-size:14px; }
     }
 
-    /* === FINAL OVERRIDE: keep mystery grid 3×2 on phones === */
+    /* Keep 3×2 grid on phones */
     @media (max-width: 640px){
       .mystery-grid{ display:grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; }
       .mystery{ grid-column: auto / span 1 !important; min-height: 110px !important; border-radius: 12px !important; }
@@ -149,7 +151,7 @@
       .secret{ font-size: 12px !important; letter-spacing: 1px !important; }
     }
 
-    /* Ultra-small fallback (optional) */
+    /* Ultra-small fallback */
     @media (max-width: 360px){
       .mystery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
     }
@@ -158,7 +160,6 @@
     @media (prefers-reduced-motion: reduce){
       .noise:before { animation:none; }
       .progress > b { transition:none; }
-      .hero-logo{ transition: none; } /* avoid hover transition if reduced motion */
     }
   </style>
 </head>
@@ -171,18 +172,22 @@
     <div class="bar">
       <!-- Left: Contact -->
       <div class="contact-group" aria-label="Contact links (header)">
-        <span class="contact-label" aria-hidden="true">Contact</span>
-        <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
-        </a>
-        <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
-        </a>
+        <div class="contact-icons">
+          <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
+          </a>
+          <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
+          </a>
+        </div>
+        <div class="contact-text">
+          <div><a href="tel:+13475418555">+1 (347) 541-8555</a></div>
+          <div><a href="mailto:info@cloth-collective.com">info@cloth-collective.com</a></div>
+        </div>
       </div>
 
       <!-- Right: Socials -->
       <div class="social" aria-label="Social links (header)">
-        <span class="follow-label" aria-hidden="true">Socials</span>
         <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" rel="noopener" aria-label="Instagram">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/></svg>
         </a>
@@ -199,7 +204,62 @@
   <main class="wrap">
     <!-- HERO -->
     <section class="hero" id="about">
-      <img src="logo.svg" alt="Cloth Collective" class="hero-logo" />
+      <!-- Outline-only halo using filters; keeps logo crisp -->
+      <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
+        <defs>
+          <!-- Base halo: subtle ring -->
+          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+            <!-- alpha -->
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 1 0" result="srcAlpha"/>
+            <!-- expand -->
+            <feMorphology in="srcAlpha" operator="dilate" radius="1.2" result="expanded"/>
+            <!-- ring = expanded - original -->
+            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
+            <!-- soften -->
+            <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
+            <!-- tint/opacity -->
+            <feColorMatrix in="ringBlur" type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 .35 0" result="ringTint"/>
+            <feMerge>
+              <feMergeNode in="ringTint"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <!-- Hover halo: a touch thicker/brighter -->
+          <filter id="outlineGlowHover" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 1 0" result="srcAlpha"/>
+            <feMorphology in="srcAlpha" operator="dilate" radius="1.8" result="expanded"/>
+            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
+            <feGaussianBlur in="ring" stdDeviation="3.4" result="ringBlur"/>
+            <feColorMatrix in="ringBlur" type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 .60 0" result="ringTint"/>
+            <feMerge>
+              <feMergeNode in="ringTint"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Render external logo file inside the SVG; cache-busted -->
+        <image href="logo.svg?v=3" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"
+               filter="url(#outlineGlow)" />
+      </svg>
+
       <div class="intro-blurb">
         <p>
           Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban, contemporary, vintage, indie, skate-inspired, and more. We bring together emerging and established labels that blend creativity, quality, and culture into wearable pieces for today’s audience.
