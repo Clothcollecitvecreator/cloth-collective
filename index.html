@@ -21,8 +21,7 @@
       --accent:#ffffff;
       --accentDim:#d9d9d9;
       --glow: 0 0 40px rgba(255,255,255,0.06);
-      /* NEW: control header icon size */
-      --icon: 26px; /* tweak if you want bigger/smaller */
+      --icon: 20px;
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
@@ -48,49 +47,39 @@
       position:sticky; top:0; z-index:10;
       backdrop-filter:saturate(180%) blur(8px);
       background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0));
-      border-bottom:1px solid var(--border);
-      height:64px;
+      border-bottom:1px solid var(--border); height:64px;
     }
     .bar{
       max-width:1120px; margin:0 auto; padding:14px 20px;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
     }
-    .follow-label, .contact-label{
-      color:var(--accentDim); font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase;
-      margin-right:2px;
-    }
-    .bar .contact-group, .bar .social{
+    .bar .social{
       display:flex; align-items:center; gap:12px;
     }
+    .social a{
+      display:inline-flex; align-items:center;
+      color:#e0e0e0; transition: color .25s ease, filter .25s ease;
+    }
+    .social a:hover{ color:#fff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+    .social svg{ width:var(--icon); height:var(--icon); }
 
-    /* Links + icons */
-    .icon-link, .social a{
-      margin-right:0; line-height:1; align-items:center; display:inline-flex; color:#e0e0e0;
-      transition: color .25s ease, filter .25s ease;
-      text-decoration:none;
+    /* === NEW Contact Chip === */
+    .contact-chip{
+      display:inline-flex; align-items:center; gap:10px;
+      background:#0f0f0f; border:1px solid var(--border);
+      padding:8px 12px; border-radius:999px;
     }
-    .icon-link:hover, .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
-
-    /* BIGGER ICONS HERE */
-    .icon-link svg, .social a svg{
-      width:var(--icon); height:var(--icon); display:block;
+    .contact-chip .citem{
+      display:inline-flex; align-items:center; gap:6px;
+      color:#e0e0e0; text-decoration:none; font-weight:700; font-size:14px;
+      transition:color .2s ease, filter .2s ease;
     }
-
-    /* Show phone number next to phone icon */
-    .icon-link.phone{
-      gap:10px; /* spacing between icon and number */
-    }
-    .phone-number{
-      color:var(--accentDim);
-      font-weight:800;
-      font-size:14px;
-      letter-spacing:.3px;
-      white-space:nowrap; /* keep it on one line */
-      line-height:1;
-      transition: color .25s ease, filter .25s ease;
-    }
-    .icon-link.phone:hover .phone-number{
-      color:#ffffff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+    .contact-chip .citem:hover{ color:#fff; filter:drop-shadow(0 0 6px rgba(255,255,255,.4)); }
+    .contact-chip svg{ width:18px; height:18px; }
+    .contact-chip .divider{ color:#7a7a7a; user-select:none; }
+    @media (max-width:640px){
+      .contact-chip{ padding:8px 10px; gap:10px }
+      .contact-chip .ctxt, .contact-chip .divider{ display:none }
     }
 
     /* Main wrapper */
@@ -164,67 +153,6 @@
     /* Footer */
     footer{ border-top:1px solid var(--border); margin-top:56px; }
     .foot{ max-width:1120px; margin:0 auto; padding:28px 20px; display:flex; justify-content:center; color:var(--accentDim); }
-
-    /* ===== Responsive tweaks ===== */
-    .hero { padding: 56px 0 28px; }
-    .hero-logo{ width: min(92vw, 780px); margin-bottom:16px; }
-
-    @media (max-width: 900px){
-      .cta-row > .tile{ grid-column:span 12; }
-      .cta-row { gap:14px; }
-    }
-
-    @media (max-width: 640px){
-      header { height:56px; }
-      .bar { padding:10px 14px; gap:8px; }
-
-      .contact-label, .follow-label { display:none; } /* keep icons only on small screens */
-      .bar .contact-group, .bar .social { gap:10px; }
-
-      /* slightly smaller icons on phones for fit */
-      :root{ --icon:22px; }
-
-      .wrap{ padding:20px 14px 56px; }
-      .intro-blurb p{ font-size:16px; }
-      .countdown { gap:8px; }
-      .pill{ padding:8px 10px; font-size:14px; }
-      .progress{ width: min(720px, 94vw); }
-
-      .tile{ padding:16px; }
-      .tile h3{ font-size:18px; }
-      .tile p{ font-size:14px; }
-      .chip{ padding:10px 14px; font-size:14px; }
-
-      /* phone number size on small screens */
-      .phone-number{ font-size:13px; }
-    }
-
-    /* === FINAL OVERRIDE: keep mystery grid 3×2 on phones === */
-    @media (max-width: 640px){
-      .mystery-grid{
-        display:grid !important;
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 12px !important;
-      }
-      .mystery{
-        grid-column: auto / span 1 !important;
-        min-height: 110px !important;
-        border-radius: 12px !important;
-      }
-      .qmark{ font-size: clamp(24px, 8vw, 40px) !important; }
-      .secret{ font-size: 12px !important; letter-spacing: 1px !important; }
-    }
-
-    /* Ultra-small fallback (optional) */
-    @media (max-width: 360px){
-      .mystery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
-    }
-
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce){
-      .noise:before { animation:none; }
-      .progress > b { transition:none; }
-    }
   </style>
 </head>
 <body>
@@ -234,24 +162,21 @@
   <!-- Header -->
   <header>
     <div class="bar">
-      <!-- Left: Contact -->
-      <div class="contact-group" aria-label="Contact links (header)">
-        <span class="contact-label" aria-hidden="true">Contact</span>
-
-        <!-- PHONE with number (clickable tel:) -->
-        <a class="icon-link phone" href="tel:+13475418555" aria-label="Phone">
+      <!-- Left: Contact Chip -->
+      <div class="contact-chip" aria-label="Contact links (header)">
+        <a href="tel:+13475418555" class="citem" aria-label="Phone">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
-          <span class="phone-number">+1 (347) 541-8555</span>
+          <span class="ctxt">+1 (347) 541-8555</span>
         </a>
-
-        <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
+        <span class="divider">•</span>
+        <a href="mailto:info@cloth-collective.com" class="citem" aria-label="Email">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
+          <span class="ctxt">info@cloth-collective.com</span>
         </a>
       </div>
 
       <!-- Right: Socials -->
       <div class="social" aria-label="Social links (header)">
-        <span class="follow-label" aria-hidden="true">Socials</span>
         <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" rel="noopener" aria-label="Instagram">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/></svg>
         </a>
@@ -284,110 +209,5 @@
         <span class="pill" id="ss">00</span>
       </div>
 
-      <div class="progress" aria-label="Time until launch">
-        <b id="progressBar" style="width:0%"></b>
-        <small id="progressLabel">0% to launch</small>
-      </div>
-    </section>
-
-    <!-- Dual CTAs -->
-    <section class="cta-row">
-      <div class="tile">
-        <div>
-          <h3>Bring your label to the Collective</h3>
-          <p>A platform built to showcase emerging labels.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank" rel="noopener" aria-label="Apply to join Cloth Collective as a brand">
-          Apply today →
-        </a>
-      </div>
-
-      <div class="tile">
-        <div>
-          <h3>Get launch updates</h3>
-          <p>Be the first to know about drops and launch updates.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank" rel="noopener">
-          Stay in the loop →
-        </a>
-      </div>
-    </section>
-
-    <!-- Featured Labels -->
-    <section>
-      <h2 class="section-title">Featured labels at launch</h2>
-      <div class="mystery-grid">
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="foot">
-      <small>© <span id="yr"></span> Cloth Collective. All rights reserved.</small>
-    </div>
-  </footer>
-
-  <script>
-    // CONFIG
-    const LAUNCH_ISO = '2025-11-13T17:00:00-05:00';
-    const START_ISO  = '2025-09-01T00:00:00-04:00';
-
-    // COUNTDOWN
-    const dd = document.getElementById('dd');
-    const hh = document.getElementById('hh');
-    const mm = document.getElementById('mm');
-    const ss = document.getElementById('ss');
-    const hydrate = document.getElementById('countdown');
-    const bar = document.getElementById('progressBar');
-    const label = document.getElementById('progressLabel');
-
-    const launch = new Date(LAUNCH_ISO);
-    const start  = new Date(START_ISO);
-
-    function tick(){
-      const now = new Date();
-      const diff = launch - now;
-
-      if (diff <= 0){
-        dd.textContent='00d'; hh.textContent='00h'; mm.textContent='00m'; ss.textContent='00s';
-        label.textContent = 'Live now';
-        bar.style.width = '100%';
-        if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
-        return;
-      }
-
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff / (1000*60*60)) % 24);
-      const m = Math.floor((diff / (1000*60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-
-      dd.textContent = String(d).padStart(2,'0') + 'd';
-      hh.textContent = String(h).padStart(2,'0') + 'h';
-      mm.textContent = String(m).padStart(2,'0') + 'm';
-      ss.textContent = String(s).padStart(2,'0') + 's';
-
-      // progress from START_ISO to LAUNCH_ISO
-      const total = (launch - start);
-      const elapsed = Math.max(0, Math.min(total, now - start));
-      const pct = total > 0 ? (elapsed / total) * 100 : 0;
-
-      bar.style.width = pct.toFixed(3) + '%';
-      label.textContent = `${pct.toFixed(1)}% to launch`;
-      if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
-    }
-
-    tick();
-    setInterval(tick, 1000);
-
-    // Footer year
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+      <div class="progress"
 
