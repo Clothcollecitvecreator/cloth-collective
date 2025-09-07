@@ -20,6 +20,8 @@
       --border:#1e1e1e;
       --accent:#ffffff;
       --accentDim:#d9d9d9;
+      --panel:#0e0e0e;
+      --panelShadow: 0 10px 30px rgba(0,0,0,.45);
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
@@ -41,7 +43,7 @@
 
     /* Header */
     header{
-      position:sticky; top:0; z-index:10;
+      position:sticky; top:0; z-index:20;
       backdrop-filter:saturate(180%) blur(8px);
       background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0));
       border-bottom:1px solid var(--border);
@@ -49,26 +51,49 @@
     }
     .bar{ max-width:1120px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
 
-    /* Left contact group = icons row + text block */
-    .contact-group{
-      display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    /* Contact cluster (left) */
+    .contact-cluster{
+      display:flex; align-items:center; gap:12px; position:relative;
     }
-    .contact-icons{
-      display:flex; align-items:center; gap:12px;
+    .contact-label-btn{
+      appearance:none; background:transparent; border:0; color:var(--accentDim);
+      font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase;
+      display:inline-flex; align-items:center; gap:6px; cursor:pointer; padding:6px 8px; border-radius:8px;
+      transition:color .2s ease, background-color .2s ease;
     }
+    .contact-label-btn:hover{ color:#fff; background:rgba(255,255,255,0.05); }
+    .caret{ display:inline-block; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid var(--accentDim); transition: transform .2s ease, border-top-color .2s ease; }
+    .contact-label-btn[aria-expanded="true"] .caret{ transform:rotate(180deg); border-top-color:#fff; }
+
+    .contact-icons{ display:flex; align-items:center; gap:12px; }
     .icon-link{ line-height:1; display:inline-flex; color:#e0e0e0; transition: color .25s ease, filter .25s ease; }
     .icon-link:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
-    .icon-link svg{ width:26px; height:26px; display:block; }
+    .icon-link svg{ width:24px; height:24px; display:block; }
 
-    .contact-text{ font-size:13px; line-height:1.4; color:var(--accentDim); }
-    .contact-text a{ color:var(--accentDim); text-decoration:none; transition:color .25s ease; }
-    .contact-text a:hover{ color:#fff; }
+    /* Dropdown panel */
+    .contact-panel{
+      position:absolute; top:100%; left:0;
+      min-width:260px; padding:12px 14px;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px;
+      box-shadow: var(--panelShadow);
+      transform: translateY(8px); opacity:0; pointer-events:none;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .contact-panel.open{ opacity:1; transform: translateY(6px); pointer-events:auto; }
+    .contact-panel a{
+      color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:10px;
+      padding:10px 8px; border-radius:10px; transition:background-color .15s ease, color .15s ease;
+    }
+    .contact-panel a:hover{ background:#121212; color:#fff; }
+    .contact-row svg{ width:18px; height:18px; opacity:.9; }
+    .contact-detail{ color:var(--accentDim); font-size:13px; }
 
-    /* Right socials */
+    /* Socials (right) */
     .social{ display:flex; align-items:center; gap:12px; }
+    .follow-label{ color:var(--accentDim); font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase; }
     .social a{ color:#e0e0e0; display:inline-flex; transition: color .25s ease, filter .25s ease; }
     .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
-    .social a svg{ width:26px; height:26px; display:block; }
+    .social a svg{ width:24px; height:24px; display:block; }
 
     /* Main wrapper */
     .wrap{ max-width:1120px; margin:0 auto; padding:24px 20px 72px; }
@@ -76,17 +101,9 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
 
-    /* LOGO: outline-only halo via SVG filter (keeps logo crisp) */
-    .hero-logo{
-      width:min(92vw, 900px);
-      height:auto;
-      display:block;
-      margin-bottom:20px;
-    }
-    /* swap to stronger halo on hover */
-    .hero-logo:hover image{
-      filter:url(#outlineGlowHover);
-    }
+    /* Subtle outline-only halo around logo (keeps logo crisp) */
+    .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
+    .hero-logo:hover image{ filter:url(#outlineGlowHover); }
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -98,7 +115,7 @@
     .progress > b{ display:block; height:100%; width:0%; background:linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.6)); box-shadow:0 0 24px rgba(255,255,255,0.25) inset; transition:width .6s ease; }
     .progress small{ display:block; text-align:right; color:var(--accentDim); margin-top:6px; font-weight:600; }
 
-    /* Tiles & CTA */
+    /* CTA / Tiles */
     .tile{ border:1px solid var(--border); background:radial-gradient(500px 300px at 10% -10%, rgba(255,255,255,0.06), transparent 40%), var(--card); border-radius:20px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; min-height:160px; transition:transform .2s ease, border-color .2s ease; }
     .tile:hover{ transform:translateY(-4px); border-color:#2a2a2a; }
     .tile h3{ margin:0; font-size:20px; letter-spacing:.5px; }
@@ -108,7 +125,7 @@
     .cta-row{ display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; margin-top:32px; }
     .cta-row > .tile{ grid-column:span 6; }
 
-    /* Featured labels grid (desktop base) */
+    /* Featured labels */
     .section-title{ font-size:22px; letter-spacing:.6px; margin:32px 0 12px; }
     .mystery-grid{ display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; }
     .mystery{ grid-column:span 4; position:relative; overflow:hidden; border:1px solid var(--border); border-radius:20px; min-height:160px; background:radial-gradient(600px 400px at 10% -10%, rgba(255,255,255,.06), transparent 40%), var(--card); transition:transform .2s ease, border-color .2s ease, filter .2s ease; display:grid; place-items:center; }
@@ -122,12 +139,11 @@
     footer{ border-top:1px solid var(--border); margin-top:56px; }
     .foot{ max-width:1120px; margin:0 auto; padding:28px 20px; display:flex; justify-content:center; color:var(--accentDim); }
 
-    /* ===== Responsive tweaks ===== */
+    /* Responsive */
     @media (max-width: 900px){
       .cta-row > .tile{ grid-column:span 12; }
       .cta-row { gap:14px; }
     }
-
     @media (max-width: 640px){
       header { height:auto; }
       .bar { padding:10px 14px; gap:10px; }
@@ -141,22 +157,17 @@
       .tile h3{ font-size:18px; }
       .tile p{ font-size:14px; }
       .chip{ padding:10px 14px; font-size:14px; }
+      .contact-panel{ min-width: 220px; }
     }
-
-    /* Keep 3×2 grid on phones */
     @media (max-width: 640px){
       .mystery-grid{ display:grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; }
       .mystery{ grid-column: auto / span 1 !important; min-height: 110px !important; border-radius: 12px !important; }
       .qmark{ font-size: clamp(24px, 8vw, 40px) !important; }
       .secret{ font-size: 12px !important; letter-spacing: 1px !important; }
     }
-
-    /* Ultra-small fallback */
     @media (max-width: 360px){
       .mystery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
     }
-
-    /* Accessibility */
     @media (prefers-reduced-motion: reduce){
       .noise:before { animation:none; }
       .progress > b { transition:none; }
@@ -170,9 +181,12 @@
   <!-- Header -->
   <header>
     <div class="bar">
-      <!-- Left: Contact -->
-      <div class="contact-group" aria-label="Contact links (header)">
-        <div class="contact-icons">
+      <!-- Left: Contact (label + icons + dropdown) -->
+      <div class="contact-cluster">
+        <button class="contact-label-btn" id="contactToggle" aria-haspopup="true" aria-expanded="false" aria-controls="contactMenu">
+          Contact <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="contact-icons" aria-label="Contact shortcuts">
           <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
           </a>
@@ -180,14 +194,29 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
           </a>
         </div>
-        <div class="contact-text">
-          <div><a href="tel:+13475418555">+1 (347) 541-8555</a></div>
-          <div><a href="mailto:info@cloth-collective.com">info@cloth-collective.com</a></div>
+
+        <!-- Dropdown -->
+        <div class="contact-panel" id="contactMenu" role="menu" aria-label="Contact details">
+          <a class="contact-row" href="tel:+13475418555" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
+            <div>
+              +1 (347) 541-8555
+              <div class="contact-detail">Tap to call or copy</div>
+            </div>
+          </a>
+          <a class="contact-row" href="mailto:info@cloth-collective.com" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
+            <div>
+              info@cloth-collective.com
+              <div class="contact-detail">Opens your email app</div>
+            </div>
+          </a>
         </div>
       </div>
 
       <!-- Right: Socials -->
       <div class="social" aria-label="Social links (header)">
+        <span class="follow-label" aria-hidden="true">Socials</span>
         <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" rel="noopener" aria-label="Instagram">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/></svg>
         </a>
@@ -209,19 +238,14 @@
         <defs>
           <!-- Base halo: subtle ring -->
           <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-            <!-- alpha -->
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 1 0" result="srcAlpha"/>
-            <!-- expand -->
             <feMorphology in="srcAlpha" operator="dilate" radius="1.2" result="expanded"/>
-            <!-- ring = expanded - original -->
             <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <!-- soften -->
             <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
-            <!-- tint/opacity -->
             <feColorMatrix in="ringBlur" type="matrix"
               values="1 0 0 0 0
                       0 1 0 0 0
@@ -256,7 +280,7 @@
         </defs>
 
         <!-- Render external logo file inside the SVG; cache-busted -->
-        <image href="logo.svg?v=3" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"
+        <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"
                filter="url(#outlineGlow)" />
       </svg>
 
@@ -265,6 +289,7 @@
           Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban, contemporary, vintage, indie, skate-inspired, and more. We bring together emerging and established labels that blend creativity, quality, and culture into wearable pieces for today’s audience.
         </p>
       </div>
+
       <div class="countdown" id="countdown" data-hydrate>
         <span class="pill" id="dd">00</span>
         <span class="pill" id="hh">00</span>
@@ -324,7 +349,7 @@
     const LAUNCH_ISO = '2025-11-13T17:00:00-05:00';
     const START_ISO = '2025-09-01T00:00:00-04:00';
 
-    // COUNTDOWN
+    // Countdown/Progress
     const dd = document.getElementById('dd');
     const hh = document.getElementById('hh');
     const mm = document.getElementById('mm');
@@ -339,12 +364,8 @@
       const now = new Date();
       const diff = launch - now;
       if (diff <= 0){
-        dd.textContent='00d';
-        hh.textContent='00h';
-        mm.textContent='00m';
-        ss.textContent='00s';
-        label.textContent = 'Live now';
-        bar.style.width = '100%';
+        dd.textContent='00d'; hh.textContent='00h'; mm.textContent='00m'; ss.textContent='00s';
+        label.textContent = 'Live now'; bar.style.width = '100%';
         if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
         return;
       }
@@ -357,7 +378,6 @@
       mm.textContent = String(m).padStart(2,'0') + 'm';
       ss.textContent = String(s).padStart(2,'0') + 's';
 
-      // progress from START_ISO to LAUNCH_ISO
       const total = (launch - start);
       const elapsed = Math.max(0, Math.min(total, now - start));
       const pct = total > 0 ? (elapsed / total) * 100 : 0;
@@ -366,12 +386,34 @@
 
       if(!hydrate.classList.contains('ready')) hydrate.classList.add('ready');
     }
-
-    tick();
-    setInterval(tick, 1000);
+    tick(); setInterval(tick, 1000);
 
     // Footer year
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Contact dropdown logic (click, outside click, Esc)
+    const toggle = document.getElementById('contactToggle');
+    const menu = document.getElementById('contactMenu');
+
+    function closeMenu(){
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    }
+    function openMenu(){
+      menu.classList.add('open');
+      toggle.setAttribute('aria-expanded','true');
+    }
+    toggle.addEventListener('click', (e)=>{
+      const isOpen = menu.classList.contains('open');
+      if (isOpen) { closeMenu(); } else { openMenu(); }
+    });
+    document.addEventListener('click', (e)=>{
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+    });
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape') closeMenu();
+    });
   </script>
 </body>
 </html>
+
