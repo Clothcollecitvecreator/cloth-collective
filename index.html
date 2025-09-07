@@ -100,8 +100,6 @@
 
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
-
-    /* Subtle outline-only halo around logo (keeps logo crisp) */
     .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
     .hero-logo:hover image{ filter:url(#outlineGlowHover); }
 
@@ -148,6 +146,10 @@
       header { height:auto; }
       .bar { padding:10px 14px; gap:10px; }
       .icon-link svg, .social a svg { width:22px; height:22px; }
+
+      /* Hide text labels on mobile */
+      .contact-label-btn, .follow-label { display:none !important; }
+
       .wrap{ padding:20px 14px 56px; }
       .intro-blurb p{ font-size:16px; }
       .countdown { gap:8px; }
@@ -233,11 +235,10 @@
   <main class="wrap">
     <!-- HERO -->
     <section class="hero" id="about">
-      <!-- Outline-only halo using filters; keeps logo crisp -->
       <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
         <defs>
-          <!-- Base halo: subtle ring -->
-          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+          <!-- Base halo -->
+          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
                       0 0 0 0 0
@@ -247,9 +248,9 @@
             <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
             <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
             <feColorMatrix in="ringBlur" type="matrix"
-              values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
+              values="1 1 1 0 0
+                      1 1 1 0 0
+                      1 1 1 0 0
                       0 0 0 .35 0" result="ringTint"/>
             <feMerge>
               <feMergeNode in="ringTint"/>
@@ -257,29 +258,27 @@
             </feMerge>
           </filter>
 
-          <!-- Hover halo: a touch thicker/brighter -->
-          <filter id="outlineGlowHover" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+          <!-- Hover halo (bright white) -->
+          <filter id="outlineGlowHover" x="-40%" y="-40%" width="180%" height="180%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="1.8" result="expanded"/>
+            <feMorphology in="srcAlpha" operator="dilate" radius="2.2" result="expanded"/>
             <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="3.4" result="ringBlur"/>
+            <feGaussianBlur in="ring" stdDeviation="4.5" result="ringBlur"/>
             <feColorMatrix in="ringBlur" type="matrix"
-              values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0 0 0 .60 0" result="ringTint"/>
+              values="1 1 1 0 0
+                      1 1 1 0 0
+                      1 1 1 0 0
+                      0 0 0 .9 0" result="ringTint"/>
             <feMerge>
               <feMergeNode in="ringTint"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
-
-        <!-- Render external logo file inside the SVG; cache-busted -->
         <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"
                filter="url(#outlineGlow)" />
       </svg>
