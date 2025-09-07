@@ -21,227 +21,145 @@
       --accent:#ffffff;
       --accentDim:#d9d9d9;
       --glow: 0 0 40px rgba(255,255,255,0.06);
-      --icon: 20px;
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
+    html { -webkit-text-size-adjust: 100%; }
     body{
-      margin:0; background:var(--bg); color:var(--ink);
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
       font-family:'Urbanist',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
     }
-
     /* Subtle animated grain/noise */
     .noise{ position:fixed; inset:0; pointer-events:none; opacity:.07; mix-blend-mode:screen; }
-    .noise:before{
-      content:""; position:absolute; inset:-200%;
-      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>');
-      animation:grain 10s steps(10) infinite;
-    }
+    .noise:before{ content:""; position:absolute; inset:-200%; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>'); animation:grain 10s steps(10) infinite; }
     @keyframes grain{ 0%{transform:translate(0,0)} 100%{transform:translate(10%,10%)} }
 
     /* Header */
-    header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter:saturate(180%) blur(8px);
-      background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0));
-      border-bottom:1px solid var(--border); height:64px;
-    }
-    .bar{
-      max-width:1120px; margin:0 auto; padding:14px 20px;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .bar .social{
-      display:flex; align-items:center; gap:12px;
-    }
-    .social a{
-      display:inline-flex; align-items:center;
-      color:#e0e0e0; transition: color .25s ease, filter .25s ease;
-    }
-    .social a:hover{ color:#fff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
-    .social svg{ width:var(--icon); height:var(--icon); }
-
-    /* === Contact Chip === */
-    .contact-chip{
-      display:inline-flex; align-items:center; gap:10px;
-      background:#0f0f0f; border:1px solid var(--border);
-      padding:8px 12px; border-radius:999px;
-    }
-    .contact-chip .citem{
-      display:inline-flex; align-items:center; gap:6px;
-      color:#e0e0e0; text-decoration:none; font-weight:700; font-size:14px;
-      transition:color .2s ease, filter .2s ease;
-    }
-    .contact-chip .citem:hover{ color:#fff; filter:drop-shadow(0 0 6px rgba(255,255,255,.4)); }
-    .contact-chip svg{ width:18px; height:18px; }
-    .contact-chip .divider{ color:#7a7a7a; user-select:none; }
-    @media (max-width:640px){
-      .contact-chip{ padding:8px 10px; gap:10px }
-      .contact-chip .ctxt, .contact-chip .divider{ display:none }
-    }
+    header{ position:sticky; top:0; z-index:10; backdrop-filter:saturate(180%) blur(8px); background:linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, rgba(0,0,0,0)); border-bottom:1px solid var(--border); height:64px; }
+    .bar{ max-width:1120px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .follow-label, .contact-label{ color:var(--accentDim); font-weight:800; letter-spacing:.6px; font-size:14px; text-transform:uppercase; margin-right:2px; }
+    .bar .contact-group, .bar .social{ display:flex; align-items:center; gap:12px; }
+    .icon-link, .social a{ margin-right:0; line-height:1; align-items:center; display:inline-flex; color:#e0e0e0; transition: color .25s ease, filter .25s ease; }
+    .icon-link:hover, .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+    .icon-link svg, .social a svg{ width:20px; height:20px; display:block; }
 
     /* Main wrapper */
     .wrap{ max-width:1120px; margin:0 auto; padding:24px 20px 72px; }
 
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
-    .hero-logo{ width:80%; max-width:900px; height:auto; margin-bottom:20px; }
+    .hero-logo{ width:80%; max-width:900px; height:auto; margin-bottom:20px; filter: drop-shadow(0 0 20px rgba(255,255,255,0.05)); }
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
 
     /* Countdown + Progress */
     .countdown{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
-    .pill{
-      background:#0f0f0f; border:1px solid var(--border); border-radius:12px; padding:10px 14px;
-      font-weight:800; letter-spacing:0.6px;
-    }
-    .progress{ margin:16px auto 0; width:min(720px,90%); height:12px; background:#0a0a0a;
-      border:1px solid var(--border); border-radius:999px; overflow:hidden; }
-    .progress > b{ display:block; height:100%; width:0%;
-      background:linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.6));
-      box-shadow:0 0 24px rgba(255,255,255,0.25) inset; transition:width .6s ease; }
+    .pill{ background:#0f0f0f; border:1px solid var(--border); border-radius:12px; padding:10px 14px; font-weight:800; letter-spacing:0.6px; }
+    .progress{ margin:16px auto 0; width:min(720px,90%); height:12px; background:#0a0a0a; border:1px solid var(--border); border-radius:999px; overflow:hidden; }
+    .progress > b{ display:block; height:100%; width:0%; background:linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.6)); box-shadow:0 0 24px rgba(255,255,255,0.25) inset; transition:width .6s ease; }
     .progress small{ display:block; text-align:right; color:var(--accentDim); margin-top:6px; font-weight:600; }
 
     /* Tiles & CTA */
-    .tile{ border:1px solid var(--border);
-      background:radial-gradient(500px 300px at 10% -10%, rgba(255,255,255,0.06), transparent 40%), var(--card);
-      border-radius:20px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; min-height:160px;
-      transition:transform .2s ease, border-color .2s ease; }
+    .tile{ border:1px solid var(--border); background:radial-gradient(500px 300px at 10% -10%, rgba(255,255,255,0.06), transparent 40%), var(--card); border-radius:20px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; min-height:160px; transition:transform .2s ease, border-color .2s ease; }
     .tile:hover{ transform:translateY(-4px); border-color:#2a2a2a; }
     .tile h3{ margin:0; font-size:20px; letter-spacing:.5px; }
     .tile p{ margin:8px 0 0; color:var(--accentDim); font-size:14px; }
-    .chip{ align-self:flex-start; display:inline-block; margin-top:12px; padding:10px 14px; border-radius:999px;
-      border:1px solid var(--border); color:var(--ink); background:#111; font-weight:800; font-size:14px;
-      text-decoration:none; transition:filter .2s ease, background-color .2s ease; }
+    .chip{ align-self:flex-start; display:inline-block; margin-top:12px; padding:10px 14px; border-radius:999px; border:1px solid var(--border); color:var(--ink); background:#111; font-weight:800; font-size:14px; text-decoration:none; transition:filter .2s ease, background-color .2s ease; }
     .chip:hover{ filter:brightness(1.12); background:#151515; }
     .cta-row{ display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; margin-top:32px; }
     .cta-row > .tile{ grid-column:span 6; }
 
-    /* Featured labels grid */
+    /* Featured labels grid (desktop base) */
     .section-title{ font-size:22px; letter-spacing:.6px; margin:32px 0 12px; }
     .mystery-grid{ display:grid; grid-template-columns:repeat(12, 1fr); gap:16px; }
-    .mystery{ grid-column:span 4; position:relative; overflow:hidden; border:1px solid var(--border);
-      border-radius:20px; min-height:160px; background:radial-gradient(600px 400px at 10% -10%, rgba(255,255,255,.06), transparent 40%), var(--card);
-      transition:transform .2s ease, border-color .2s ease, filter .2s ease; display:grid; place-items:center; }
+    .mystery{ grid-column:span 4; position:relative; overflow:hidden; border:1px solid var(--border); border-radius:20px; min-height:160px; background:radial-gradient(600px 400px at 10% -10%, rgba(255,255,255,.06), transparent 40%), var(--card); transition:transform .2s ease, border-color .2s ease, filter .2s ease; display:grid; place-items:center; }
     .mystery:hover{ transform:translateY(-4px); border-color:#2a2a2a; filter:brightness(1.05); }
-    .qmark{ font-family:'Shrikhand', system-ui, sans-serif;
-      font-size: clamp(42px, 7vw, 72px); color:#e6e6e6; opacity:.9; }
-    .secret{ position:absolute; inset:0; display:grid; place-items:center; color:#fff; text-transform:uppercase;
-      font-weight:900; letter-spacing:2px; opacity:0; transform:translateY(6px);
-      transition: opacity .25s ease, transform .25s ease; }
+    .qmark{ font-family:'Shrikhand', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: clamp(42px, 7vw, 72px); color:#e6e6e6; opacity:.9; transition: opacity .25s ease, transform .25s ease; }
+    .secret{ position:absolute; inset:0; display:grid; place-items:center; color:#fff; text-transform:uppercase; font-weight:900; letter-spacing:2px; opacity:0; transform:translateY(6px); transition: opacity .25s ease, transform .25s ease; }
     .mystery:hover .qmark{ opacity:0; transform:translateY(-6px); }
     .mystery:hover .secret{ opacity:1; transform:translateY(0); }
 
     /* Footer */
     footer{ border-top:1px solid var(--border); margin-top:56px; }
     .foot{ max-width:1120px; margin:0 auto; padding:28px 20px; display:flex; justify-content:center; color:var(--accentDim); }
+
+    /* ===== Responsive tweaks ===== */
+    .hero { padding: 56px 0 28px; }
+    .hero-logo{ width: min(92vw, 780px); margin-bottom:16px; }
+
+    @media (max-width: 900px){
+      .cta-row > .tile{ grid-column:span 12; }
+      .cta-row { gap:14px; }
+    }
+
+    @media (max-width: 640px){
+      header { height:56px; }
+      .bar { padding:10px 14px; gap:8px; }
+      .contact-label, .follow-label { display:none; } /* keep icons only */
+      .bar .contact-group, .bar .social { gap:10px; }
+      .icon-link svg, .social a svg { width:18px; height:18px; }
+      .wrap{ padding:20px 14px 56px; }
+      .intro-blurb p{ font-size:16px; }
+      .countdown { gap:8px; }
+      .pill{ padding:8px 10px; font-size:14px; }
+      .progress{ width: min(720px, 94vw); }
+      .tile{ padding:16px; }
+      .tile h3{ font-size:18px; }
+      .tile p{ font-size:14px; }
+      .chip{ padding:10px 14px; font-size:14px; }
+    }
+
+    /* === FINAL OVERRIDE: keep mystery grid 3×2 on phones === */
+    @media (max-width: 640px){
+      .mystery-grid{ display:grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; }
+      .mystery{ grid-column: auto / span 1 !important; min-height: 110px !important; border-radius: 12px !important; }
+      .qmark{ font-size: clamp(24px, 8vw, 40px) !important; }
+      .secret{ font-size: 12px !important; letter-spacing: 1px !important; }
+    }
+
+    /* Ultra-small fallback (optional) */
+    @media (max-width: 360px){
+      .mystery-grid{ grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .noise:before { animation:none; }
+      .progress > b { transition:none; }
+    }
   </style>
 </head>
 <body>
+  <!-- Subtle grain overlay -->
   <div class="noise" aria-hidden="true"></div>
 
   <!-- Header -->
   <header>
     <div class="bar">
-      <div class="contact-chip">
-        <a href="tel:+13475418555" class="citem">
+      <!-- Left: Contact -->
+      <div class="contact-group" aria-label="Contact links (header)">
+        <span class="contact-label" aria-hidden="true">Contact</span>
+        <a class="icon-link" href="tel:+13475418555" aria-label="Phone">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 2.9l2.2-.7c.6-.2 1.2.1 1.4.7l1.1 2.6c.2.5.1 1.1-.3 1.5l-1.5 1.5c.9 1.7 2.3 3.1 4 4l1.5-1.5c.4-.4 1-.5 1.5-.3l2.6 1.1c.6.2.9.8.7 1.4l-.7 2.2c-.2.6-.7 1.1-1.3 1.3-.9.3-1.9.5-3 .5-5.9 0-10.7-4.8-10.7-10.7 0-1.1.2-2.1.5-3 .2-.6.7-1.1 1.3-1.3z"/></svg>
-          <span class="ctxt">+1 (347) 541-8555</span>
         </a>
-        <span class="divider">•</span>
-        <a href="mailto:info@cloth-collective.com" class="citem">
+        <a class="icon-link" href="mailto:info@cloth-collective.com" target="_blank" rel="noopener" aria-label="Email">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13l8-7V6H4zm0 12h16V8l-8 7-8-7v10z"/></svg>
-          <span class="ctxt">info@cloth-collective.com</span>
         </a>
       </div>
 
-      <div class="social">
-        <a href="https://www.instagram.com/clothcollective.nyc" target="_blank">
+      <!-- Right: Socials -->
+      <div class="social" aria-label="Social links (header)">
+        <span class="follow-label" aria-hidden="true">Socials</span>
+        <a href="https://www.instagram.com/clothcollective.nyc" target="_blank" rel="noopener" aria-label="Instagram">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/></svg>
         </a>
-        <a href="https://www.tiktok.com/@clothcollective.nyc" target="_blank">
+        <a href="https://www.tiktok.com/@clothcollective.nyc" target="_blank" rel="noopener" aria-label="TikTok">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12.75 2h3.5a5.25 5.25 0 005.25 5.25v3.5a8.75 8.75 0 01-5.25-1.75v7.75a6.75 6.75 0 11-6.75-6.75h.25v3.5a3.25 3.25 0 103.25 3.25V2z"/></svg>
         </a>
-        <a href="https://www.snapchat.com/add/clothcollective" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c3.4 0 6.2 2.6 6.4 6 .2 2.3.7 3.8 2.6 4.8.6.3.9 1 .7 1.6-.3.8-1 1.1-1.8 1.3-1 .2-1.2.6-1.2.9s.3.6.7.8c.4.2.8.4.9.8.2.5 0 1-.4 1.3-.7.5-2.4.6-3.1.7-.4.6-1.1 1.2-1.9 1.5-.7.3-1.4.4-2.2.4s-1.5-.1-2.2-.4c-.8-.3-1.5-.9-1.9-1.5-.7-.1-2.4-.2-3.1-.7-.4-.3-.6-.8-.4-1.3.1-.4.5-.6.9-.8.4-.2.7-.5.7-.8 0-.3-.2-.7-1.2-.9-.8-.2-1.5-.5-1.8-1.3-.2-.6.1-1.3.7-1.6 1.9-1 2.4-2.5 2.6-4.8.2-3.4 3-6 6.4-6z"/></svg>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <section class="hero" id="about">
-      <img src="logo.svg" alt="Cloth Collective" class="hero-logo" />
-      <div class="intro-blurb">
-        <p>Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban, contemporary, vintage, indie, skate-inspired, and more. We bring together emerging and established labels that blend creativity, quality, and culture into wearable pieces for today’s audience.</p>
-      </div>
-      <div class="countdown" id="countdown" data-hydrate>
-        <span class="pill" id="dd">00</span>
-        <span class="pill" id="hh">00</span>
-        <span class="pill" id="mm">00</span>
-        <span class="pill" id="ss">00</span>
-      </div>
-      <div class="progress" aria-label="Time until launch">
-        <b id="progressBar" style="width:0%"></b>
-        <small id="progressLabel">0% to launch</small>
-      </div>
-    </section>
-
-    <section class="cta-row">
-      <div class="tile">
-        <div>
-          <h3>Bring your label to the Collective</h3>
-          <p>A platform built to showcase emerging labels.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
-      </div>
-      <div class="tile">
-        <div>
-          <h3>Get launch updates</h3>
-          <p>Be the first to know about drops and launch updates.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank">Stay in the loop →</a>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="section-title">Featured labels at launch</h2>
-      <div class="mystery-grid">
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-        <div class="mystery"><div class="qmark">?</div><div class="secret">TOP SECRET</div></div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="foot">
-      <small>© <span id="yr"></span> Cloth Collective. All rights reserved.</small>
-    </div>
-  </footer>
-
-  <script>
-    const LAUNCH_ISO = '2025-11-13T17:00:00-05:00';
-    const START_ISO  = '2025-09-01T00:00:00-04:00';
-    const dd=document.getElementById('dd'),hh=document.getElementById('hh'),mm=document.getElementById('mm'),ss=document.getElementById('ss');
-    const hydrate=document.getElementById('countdown');const bar=document.getElementById('progressBar');const label=document.getElementById('progressLabel');
-    const launch=new Date(LAUNCH_ISO);const start=new Date(START_ISO);
-    function tick(){const now=new Date();const diff=launch-now;
-      if(diff<=0){dd.textContent='00d';hh.textContent='00h';mm.textContent='00m';ss.textContent='00s';
-        label.textContent='Live now';bar.style.width='100%';if(!hydrate.classList.contains('ready'))hydrate.classList.add('ready');return;}
-      const d=Math.floor(diff/(1000*60*60*24));const h=Math.floor((diff/(1000*60*60))%24);
-      const m=Math.floor((diff/(1000*60))%60);const s=Math.floor((diff/1000)%60);
-      dd.textContent=String(d).padStart(2,'0')+'d';hh.textContent=String(h).padStart(2,'0')+'h';
-      mm.textContent=String(m).padStart(2,'0')+'m';ss.textContent=String(s).padStart(2,'0')+'s';
-      const total=(launch-start);const elapsed=Math.max(0,Math.min(total,now-start));
-      const pct=total>0?(elapsed/total)*100:0;bar.style.width=pct.toFixed(3)+'%';
-      label.textContent=`${pct.toFixed(1)}% to launch`;if(!hydrate.classList.contains('ready'))hydrate.classList.add('ready');}
-    tick();setInterval(tick,1000);
-    document.getElementById('yr').textContent=new Date().getFullYear();
-  </script>
-</body>
-</html>
+        <a href="https://www.snapchat.com/add/clothcollective" target="_blank" rel="noopener" aria-label="Snapchat">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c3.4 0 6.2 2.6 6.4 6 .2 2.3.7 3.8 2.6 4.8.6.3.9 1 .7 1.6-.3.8-1 1.1-1.8 1.3-1 .2-1.2.6-1.2.9s.3.6.7.8c.4.2.8.4.9.8.2.5 0 1-.4 1.3-.7.5-2.4.6-3.1.7-.4.6-1.1 1.2-1.9 1.5-.7.3-1.4.4-2.2.4s-1.5-.1-2.2
