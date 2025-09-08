@@ -101,7 +101,14 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
-    .hero-logo:hover image{ filter:url(#outlineGlowHover); }
+
+    /* Default: no glow anywhere */
+    .hero-logo image{ filter:none; }
+
+    /* Desktop/hover devices only: white outline glow on hover */
+    @media (hover: hover) and (pointer: fine){
+      .hero-logo:hover image{ filter:url(#outlineGlowHover); }
+    }
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -237,7 +244,7 @@
     <section class="hero" id="about">
       <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
         <defs>
-          <!-- Base halo -->
+          <!-- (Unused) Base halo kept for reference -->
           <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
@@ -258,7 +265,7 @@
             </feMerge>
           </filter>
 
-          <!-- Hover halo (bright white) -->
+          <!-- Hover halo (white outline) -->
           <filter id="outlineGlowHover" x="-40%" y="-40%" width="180%" height="180%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
@@ -279,8 +286,8 @@
             </feMerge>
           </filter>
         </defs>
-        <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"
-               filter="url(#outlineGlow)" />
+        <!-- No default filter; hover-only for desktop via CSS -->
+        <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
       </svg>
 
       <div class="intro-blurb">
@@ -309,8 +316,7 @@
           <p>A platform built to showcase emerging labels.</p>
         </div>
         <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank" rel="noopener" aria-label="Apply to join Cloth Collective as a brand">
-          Apply today →
-        </a>
+          Apply today →</a>
       </div>
       <div class="tile">
         <div>
@@ -318,8 +324,7 @@
           <p>Be the first to know about drops and launch updates.</p>
         </div>
         <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank" rel="noopener">
-          Stay in the loop →
-        </a>
+          Stay in the loop →</a>
       </div>
     </section>
 
@@ -415,3 +420,4 @@
   </script>
 </body>
 </html>
+
