@@ -289,31 +289,99 @@
     </div>
   </footer>
 
-  <script>
-    const LAUNCH_ISO = '2025-11-13T17:00:00-05:00';
-    const START_ISO = '2025-09-01T00:00:00-04:00';
-    const dd=document.getElementById('dd'), hh=document.getElementById('hh'), mm=document.getElementById('mm'), ss=document.getElementById('ss');
-    const hydrate=document.getElementById('countdown'), bar=document.getElementById('progressBar'), label=document.getElementById('progressLabel');
-    const launch=new Date(LAUNCH_ISO), start=new Date(START_ISO);
-    function tick(){
-      const now=new Date(), diff=launch-now;
-      if(diff<=0){ dd.textContent='00d'; hh.textContent='00h'; mm.textContent='00m'; ss.textContent='00s'; label.textContent='Live now'; bar.style.width='100%'; return;}
-      const d=Math.floor(diff/(1000*60*60*24)), h=Math.floor((diff/(1000*60*60))%24), m=Math.floor((diff/(1000*60))%60), s=Math.floor((diff/1000)%60);
-      dd.textContent=String(d).padStart(2,'0')+'d'; hh.textContent=String(h).padStart(2,'0')+'h'; mm.textContent=String(m).padStart(2,'0')+'m'; ss.textContent=String(s).padStart(2,'0')+'s';
-      const total=launch-start, elapsed=Math.max(0,Math.min(total,now-start)), pct=total>0?(elapsed/total)*100:0;
-      bar.style.width=pct.toFixed(3)+'%'; label.textContent=`${pct.toFixed(1)}% to launch`;
-    }
-    tick(); setInterval(tick,1000);
-    document.getElementById('yr').textContent=new Date().getFullYear();
+<script>
+  // ====== CONFIG ======
+  const ANNOUNCE_ISO = '2025-11-13T00:00:00-05:00'; // Announcement @ 12:00 AM ET
+  const LAUNCH_ISO   = '2025-12-01T00:00:00-05:00'; // Launch (Cyber Monday) @ 12:00 AM ET
+  const START_ISO    = '2025-09-01T00:00:00-04:00'; // Start of timeline (adjust if needed)
 
-    const toggle=document.getElementById('contactToggle'), menu=document.getElementById('contactMenu');
-    function closeMenu(){menu.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
-    function openMenu(){menu.classList.add('open');toggle.setAttribute('aria-expanded','true');}
-    toggle.addEventListener('click',()=>{menu.classList.contains('open')?closeMenu():openMenu();});
-    document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!toggle.contains(e.target))closeMenu();});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
-  </script>
+  // ====== ELEMENTS ======
+  const dd = document.getElementById('dd');
+  const hh = document.getElementById('hh');
+  const mm = document.getElementById('mm');
+  const ss = document.getElementById('ss');
+  const label = document.getElementById('progressLabel');
+  const bar = document.getElementById('progressBar');
+
+  function fmt(n, suffix){ return String(n).padStart(2,'0') + suffix; }
+  function setPills(d='--d', h='--h', m='--m', s='--s'){
+    dd.textContent = d; hh.textContent = h; mm.textContent = m; ss.textContent = s;
+  }
+
+  function countdownTo(targetDate){
+    const now = new Date();
+    const diff = targetDate - now;
+    if (diff <= 0) return { done:true, d:0, h:0, m:0, s:0 };
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff / (1000*60*60)) % 24);
+    const m = Math.floor((diff / (1000*60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+    return { done:false, d, h, m, s };
+  }
+
+  function updateProgressTo(targetDate, startDate){
+    const total = targetDate - startDate;
+    const now = new Date();
+    const elapsed = Math.max(0, Math.min(total, now - startDate));
+    const pct = total > 0 ? (elapsed / total) * 100 : 0;
+    bar.style.width = pct.toFixed(3) + '%';
+    return pct;
+  }
+
+  function tick(){
+    const start = new Date(START_ISO);
+
+    // Phase 1: Announcement countdown
+    if (ANNOUNCE_ISO){
+      const announce = new Date(ANNOUNCE_ISO);
+      const a = countdownTo(announce);
+      if (!a.done){
+        setPills(fmt(a.d,'d'), fmt(a.h,'h'), fmt(a.m,'m'), fmt(a.s,'s'));
+        const pct = updateProgressTo(announce, start);
+        label.textContent = `Announcement in • ${pct.toFixed(1)}% to announcement`;
+        return;
+      }
+    }
+
+    // Phase 2: Launch countdown
+    if (LAUNCH_ISO){
+      const launch = new Date(LAUNCH_ISO);
+      const l = countdownTo(launch);
+      if (!l.done){
+        setPills(fmt(l.d,'d'), fmt(l.h,'h'), fmt(l.m,'m'), fmt(l.s,'s'));
+        const pct = updateProgressTo(launch, start);
+        label.textContent = `${pct.toFixed(1)}% to launch`;
+        return;
+      } else {
+        setPills('00d','00h','00m','00s');
+        bar.style.width = '100%';
+        label.textContent = 'Live now';
+        return;
+      }
+    }
+
+    // Phase 3: No launch date yet
+    setPills('--d','--h','--m','--s');
+    bar.style.width = '0%';
+    label.textContent = 'Launch date TBD';
+  }
+
+  tick();
+  setInterval(tick, 1000);
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ====== CONTACT MENU ======
+  const toggle = document.getElementById('contactToggle');
+  const menu = document.getElementById('contactMenu');
+  function closeMenu(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+  function openMenu(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+  toggle.addEventListener('click', ()=>{ menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  document.addEventListener('click', e => { if(!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+</script>
+
 </body>
 </html>
+
 
 
