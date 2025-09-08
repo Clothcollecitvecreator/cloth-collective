@@ -77,15 +77,22 @@
     .social a:hover{ color:#ffffff; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
     .social a svg{ width:24px; height:24px; display:block; }
 
-    /* Main wrapper */
-    .wrap{ max-width:1120px; margin:0 auto; padding:24px 20px 72px; }
-
     /* HERO */
-    .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
-    .hero-logo{ width:min(70vw, 700px); height:auto; display:block; margin-bottom:20px; }
+.hero {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:56px 0 32px;
+  text-align:center;
+}
+.hero-logo {
+  width:min(70vw, 700px);
+  height:auto;
+  display:block;
+  margin-bottom:20px;
+}
 
-
-   /* Desktop-only hover animation + glow */
+/* Desktop-only hover animation (no direct glow on the image) */
 @media (hover: hover) and (pointer: fine) {
   .hero-logo {
     transition:
@@ -96,9 +103,6 @@
   .hero-logo:hover {
     transform: translateY(-2px) scale(1.02) rotate(-0.2deg);
     animation: heroBob 1200ms ease-in-out infinite alternate;
-    filter:
-      drop-shadow(0 0 4px rgba(255,255,255,0.8))
-      drop-shadow(0 0 10px rgba(255,255,255,0.5));
     cursor: pointer;
   }
 }
@@ -108,10 +112,51 @@
   100% { transform: translateY(-4px) scale(1.025) rotate(0.2deg); }
 }
 
+/* Desktop-only aura effect on hover (behind the image) */
+@media (hover: hover) and (pointer: fine) {
+  .hero-aura {
+    position: relative;
+    display: inline-block;
+  }
 
+  .hero-aura::before {
+    content:"";
+    position:absolute; inset:-8%;
+    pointer-events:none;
+    z-index:0;
 
-    .intro-blurb{ max-width:720px; margin:0 auto 20px; }
-    .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
+    background:
+      radial-gradient(closest-side, rgba(255,255,255,.35), transparent 60%) center/100% 100% no-repeat,
+      conic-gradient(from var(--spin,0deg),
+        rgba(255,255,255,0) 0 15%,
+        rgba(255,255,255,.45) 22%,
+        rgba(255,255,255,0) 32%,
+        rgba(255,255,255,0) 100%);
+    border-radius: 28px;
+    filter: blur(16px);
+    opacity: 0;                 /* hidden by default */
+    transition: opacity .3s ease-in-out;
+  }
+
+  .hero-aura:hover::before {
+    opacity: .85;               /* aura appears on hover */
+    animation:
+      auraSpin 6s linear infinite,
+      auraPulse 2.4s ease-in-out infinite alternate;
+  }
+
+  .hero-aura > .hero-logo {
+    position: relative;         /* keep logo above aura */
+    z-index: 1;
+  }
+}
+
+@keyframes auraSpin { to { --spin: 360deg; } }
+@keyframes auraPulse {
+  0%   { filter: blur(14px); opacity: .65; }
+  100% { filter: blur(20px); opacity: .9; }
+}
+
 
     /* Countdown + Progress */
     .countdown{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
@@ -229,11 +274,14 @@
   </header>
 
   <main class="wrap">
-    <!-- HERO -->
-    <section class="hero" id="about">
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <div class="hero-aura">
       <img src="logo.svg?v=4" alt="Cloth Collective logo" class="hero-logo" />
+    </div>
 
-      <div class="intro-blurb">
+    <div class="intro-blurb">
+
         <p>
           Cloth Collective is a curated marketplace for fashion across the spectrum — streetwear, urban, contemporary, vintage, indie, skate-inspired, and more. We bring together emerging and established labels that blend creativity, quality, and culture into wearable pieces for today’s audience.
         </p>
@@ -315,5 +363,6 @@
   </script>
 </body>
 </html>
+
 
 
