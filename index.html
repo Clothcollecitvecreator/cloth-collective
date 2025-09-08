@@ -233,39 +233,90 @@
     <section class="hero" id="about">
       <img src="logo.svg?v=4" alt="Cloth Collective logo" class="hero-logo" />
 
-      <div class="intro-blurb">
-        <p>
-         ClothCollective is a curated marketplace for fashion brands across the spectrum — streetwear, urban, contemporary, vintage, alternative, indie, skate-inspired, and everything in between. Our goal is to bring together emerging and established labels that blend creativity, quality, and culture into wearable, on-trend pieces for today’s audience.
+     <div class="intro-blurb">
+  <p>
+    ClothCollective is a curated marketplace for fashion brands across the spectrum — streetwear, urban, contemporary, vintage, alternative, indie, skate-inspired, and everything in between. Our goal is to bring together emerging and established labels that blend creativity, quality, and culture into wearable, on-trend pieces for today’s audience.
   </p>
-      <div class="countdown" id="countdown" data-hydrate>
-        <span class="pill" id="dd">00</span>
-        <span class="pill" id="hh">00</span>
-        <span class="pill" id="mm">00</span>
-        <span class="pill" id="ss">00</span>
-      </div>
+</div>
+
+<div class="countdown" id="countdown" data-hydrate>
+  <span class="pill" id="dd">00</span>
+  <span class="pill" id="hh">00</span>
+  <span class="pill" id="mm">00</span>
+  <span class="pill" id="ss">00</span>
+</div>
+
       <div class="progress" aria-label="Time until launch">
         <b id="progressBar" style="width:0%"></b>
         <small id="progressLabel">0% to launch</small>
       </div>
     </section>
 
-    <!-- CTAs -->
-    <section class="cta-row">
-      <div class="tile">
-        <div>
-          <h3>Bring your label to the Collective</h3>
-          <p>A platform built to showcase emerging labels.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
-      </div>
-      <div class="tile">
-        <div>
-          <h3>Get launch updates</h3>
-          <p>Be the first to know about drops and launch updates.</p>
-        </div>
-        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank">Stay in the loop →</a>
-      </div>
-    </section>
+  <!-- CTAs -->
+<section class="cta-row">
+  <div class="tile">
+    <div>
+      <h3>Bring your label to the Collective</h3>
+      <p>A platform built to showcase emerging labels.</p>
+    </div>
+    <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
+  </div>
+
+  <form name="launch-updates"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        action="/thanks.html"
+        class="tile">
+
+    <!-- Netlify registration -->
+    <input type="hidden" name="form-name" value="launch-updates">
+    <p hidden>
+      <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+    </p>
+
+    <div>
+      <h3>Cloth Collective — Launch Updates & Drop Alerts</h3>
+      <p>Join the Cloth Collective waitlist to get launch day alerts, early access, and updates on future drops. No spam — just the good stuff.</p>
+    </div>
+
+    <!-- Email (required) -->
+    <label for="email" style="margin-top:12px; font-weight:600; display:block;">Email Address <span aria-hidden="true">*</span></label>
+    <input id="email" type="email" name="email" required
+           placeholder="you@example.com"
+           aria-describedby="email-help"
+           style="margin-top:6px; padding:10px 14px; border-radius:999px; border:1px solid var(--border); background:#111; color:var(--ink); width:100%; max-width:320px;">
+    <small id="email-help" style="color:var(--accentDim); display:block; margin-top:6px;">
+      We’ll use this to send you launch day alerts and updates on new drops.
+    </small>
+
+    <!-- How did you hear about us? (required) -->
+    <fieldset style="margin-top:14px; border:0; padding:0;">
+      <legend style="font-weight:600;">How did you hear about us? <span aria-hidden="true">*</span></legend>
+
+      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+        <input type="radio" name="referrer" value="Social media" required>
+        <span>Social media</span>
+      </label>
+
+      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+        <input type="radio" name="referrer" value="Word of mouth" required>
+        <span>Word of mouth</span>
+      </label>
+
+      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+        <input type="radio" name="referrer" value="Commercial / Billboard / Poster" required>
+        <span>Commercial / Billboard / Poster</span>
+      </label>
+    </fieldset>
+
+    <button type="submit" class="chip" style="margin-top:12px;">Stay in the loop →</button>
+  </form>
+</section>
+ 
+
+<button type="submit" class="chip" style="margin-top:12px;">Stay in the loop →</button>
+
 
     <!-- Mystery grid -->
     <section>
@@ -380,6 +431,7 @@
 
 </body>
 </html>
+
 
 
 
