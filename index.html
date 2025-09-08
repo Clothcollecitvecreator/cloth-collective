@@ -102,11 +102,12 @@
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
 
-    /* Default: no glow anywhere */
+    /* —— Logo glow behavior —— */
+    /* Default: no glow anywhere (prevents blur on mobile) */
     .hero-logo image{ filter:none; }
-
     /* Desktop/hover devices only: white outline glow on hover */
     @media (hover: hover) and (pointer: fine){
+      .hero-logo{ cursor:pointer; }
       .hero-logo:hover image{ filter:url(#outlineGlowHover); }
     }
 
@@ -244,42 +245,21 @@
     <section class="hero" id="about">
       <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
         <defs>
-          <!-- (Unused) Base halo kept for reference -->
-          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feColorMatrix in="SourceGraphic" type="matrix"
-              values="0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="1.2" result="expanded"/>
-            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
-            <feColorMatrix in="ringBlur" type="matrix"
-              values="1 1 1 0 0
-                      1 1 1 0 0
-                      1 1 1 0 0
-                      0 0 0 .35 0" result="ringTint"/>
-            <feMerge>
-              <feMergeNode in="ringTint"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-
           <!-- Hover halo (white outline) -->
-          <filter id="outlineGlowHover" x="-40%" y="-40%" width="180%" height="180%">
+          <filter id="outlineGlowHover" x="-45%" y="-45%" width="190%" height="190%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="2.2" result="expanded"/>
+            <feMorphology in="srcAlpha" operator="dilate" radius="3.5" result="expanded"/>
             <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="4.5" result="ringBlur"/>
+            <feGaussianBlur in="ring" stdDeviation="6" result="ringBlur"/>
             <feColorMatrix in="ringBlur" type="matrix"
               values="1 1 1 0 0
                       1 1 1 0 0
                       1 1 1 0 0
-                      0 0 0 .9 0" result="ringTint"/>
+                      0 0 0 1 0" result="ringTint"/>
             <feMerge>
               <feMergeNode in="ringTint"/>
               <feMergeNode in="SourceGraphic"/>
@@ -316,7 +296,8 @@
           <p>A platform built to showcase emerging labels.</p>
         </div>
         <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank" rel="noopener" aria-label="Apply to join Cloth Collective as a brand">
-          Apply today →</a>
+          Apply today →
+        </a>
       </div>
       <div class="tile">
         <div>
@@ -324,7 +305,8 @@
           <p>Be the first to know about drops and launch updates.</p>
         </div>
         <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfZtfv8DFY_Eq3e7Wjm-lsK9CA6IgqgXnp2mTCZld00FIc2bA/viewform?usp=header" target="_blank" rel="noopener">
-          Stay in the loop →</a>
+          Stay in the loop →
+        </a>
       </div>
     </section>
 
@@ -420,4 +402,3 @@
   </script>
 </body>
 </html>
-
