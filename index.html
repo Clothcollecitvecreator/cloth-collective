@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
   <title>Cloth Collective — Launching Soon</title>
   <meta name="description" content="Cloth Collective — a curated marketplace for fashion across the spectrum. Launching soon." />
 
@@ -25,7 +25,7 @@
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
-    html { -webkit-text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust:100%; }
     body{
       margin:0;
       background:var(--bg);
@@ -34,6 +34,7 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       overflow-x:hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
     /* Subtle animated grain/noise */
@@ -101,7 +102,6 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
-    .hero-logo:hover image{ filter:url(#outlineGlowHover); } /* hover effect defined below */
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -174,19 +174,6 @@
       .noise:before { animation:none; }
       .progress > b { transition:none; }
     }
-
-    /* —— Logo glow behavior + mobile override —— */
-    /* Default: no glow anywhere */
-    .hero-logo image{ filter:none; }
-    /* Desktop/hover devices only: white outline glow on hover */
-    @media (hover: hover) and (pointer: fine){
-      .hero-logo{ cursor:pointer; }
-      .hero-logo:hover image{ filter:url(#outlineGlowHover); }
-    }
-    /* Force logo clean on mobile (prevents any stray blur on iOS) */
-    @media (max-width: 900px){
-      .hero-logo image { filter: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -249,50 +236,6 @@
     <!-- HERO -->
     <section class="hero" id="about">
       <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
-        <defs>
-          <!-- Base halo (kept but unused by default) -->
-          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feColorMatrix in="SourceGraphic" type="matrix"
-              values="0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="1.2" result="expanded"/>
-            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
-            <feColorMatrix in="ringBlur" type="matrix"
-              values="1 1 1 0 0
-                      1 1 1 0 0
-                      1 1 1 0 0
-                      0 0 0 .35 0" result="ringTint"/>
-            <feMerge>
-              <feMergeNode in="ringTint"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-
-          <!-- Hover halo (white outline, stronger) -->
-          <filter id="outlineGlowHover" x="-40%" y="-40%" width="180%" height="180%">
-            <feColorMatrix in="SourceGraphic" type="matrix"
-              values="0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 0 0
-                      0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="2.8" result="expanded"/>
-            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="5.5" result="ringBlur"/>
-            <feColorMatrix in="ringBlur" type="matrix"
-              values="1 1 1 0 0
-                      1 1 1 0 0
-                      1 1 1 0 0
-                      0 0 0 1 0" result="ringTint"/>
-            <feMerge>
-              <feMergeNode in="ringTint"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <!-- No default filter; hover-only via CSS for desktop -->
         <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
       </svg>
 
@@ -403,7 +346,7 @@
     // Footer year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Contact dropdown logic (click, outside click, Esc)
+    // Contact dropdown logic
     const toggle = document.getElementById('contactToggle');
     const menu = document.getElementById('contactMenu');
 
