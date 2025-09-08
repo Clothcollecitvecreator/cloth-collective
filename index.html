@@ -101,15 +101,7 @@
     /* HERO */
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(92vw, 900px); height:auto; display:block; margin-bottom:20px; }
-
-    /* —— Logo glow behavior —— */
-    /* Default: no glow anywhere (prevents blur on mobile) */
-    .hero-logo image{ filter:none; }
-    /* Desktop/hover devices only: white outline glow on hover */
-    @media (hover: hover) and (pointer: fine){
-      .hero-logo{ cursor:pointer; }
-      .hero-logo:hover image{ filter:url(#outlineGlowHover); }
-    }
+    .hero-logo:hover image{ filter:url(#outlineGlowHover); } /* hover effect defined below */
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -182,6 +174,19 @@
       .noise:before { animation:none; }
       .progress > b { transition:none; }
     }
+
+    /* —— Logo glow behavior + mobile override —— */
+    /* Default: no glow anywhere */
+    .hero-logo image{ filter:none; }
+    /* Desktop/hover devices only: white outline glow on hover */
+    @media (hover: hover) and (pointer: fine){
+      .hero-logo{ cursor:pointer; }
+      .hero-logo:hover image{ filter:url(#outlineGlowHover); }
+    }
+    /* Force logo clean on mobile (prevents any stray blur on iOS) */
+    @media (max-width: 900px){
+      .hero-logo image { filter: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -234,7 +239,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12.75 2h3.5a5.25 5.25 0 005.25 5.25v3.5a8.75 8.75 0 01-5.25-1.75v7.75a6.75 6.75 0 11-6.75-6.75h.25v3.5a3.25 3.25 0 103.25 3.25V2z"/></svg>
         </a>
         <a href="https://www.snapchat.com/add/clothcollective" target="_blank" rel="noopener" aria-label="Snapchat">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c3.4 0 6.2 2.6 6.4 6 .2 2.3.7 3.8 2.6 4.8.6.3.9 1 .7 1.6-.3.8-1 1.1-1.8 1.3-1 .2-1.2.6-1.2.9s.3.6.7.8c.4.2.8.4.9.8.2.5 0 1-.4 1.3-.7.5-2.4.6-3.1.7-.4.6-1.1 1.2-1.9 1.5-.7.3-1.4.4-2.2.4s-1.5-.1-2.2-.4c-.8-.3-1.5-.9-1.9-1.5-.7-.1-2.4-.2-3.1-.7-.4-.3-.6-.8-.4-1.3.1-.4.5-.6.9-.8.4-.2.7-.5.7-.8 0-.3-.2-.7-1.2-.9-.8-.2-1.5-.5-1.8-1.3-.2-.6.1-1.3.7-1.6 1.9-1 2.4-2.5 2.6-4.8.2-3.4 3-6 6.4-6z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c3.4 0 6.2 2.6 6.4 6 .2 2.3.7 3.8 2.6 4.8.6.3.9 1 .7 1.6-.3.8-1 1.1-1.8 1.3-1 .2-1.2.6-1.2.9s.3.6.7.8c.4.2.8.4.9.8.2.5 0 1-.4 1.3-.7.5-2.4.6-3.1.7-.4.6-1.1 1.2-1.9 1.5-.7.3-2.4.4-3.1.4s-1.5-.1-2.2-.4c-.8-.3-1.5-.9-1.9-1.5-.7-.1-2.4-.2-3.1-.7-.4-.3-.6-.8-.4-1.3.1-.4.5-.6.9-.8.4-.2.7-.5.7-.8 0-.3-.2-.7-1.2-.9-.8-.2-1.5-.5-1.8-1.3-.2-.6.1-1.3.7-1.6 1.9-1 2.4-2.5 2.6-4.8.2-3.4 3-6 6.4-6z"/></svg>
         </a>
       </div>
     </div>
@@ -245,16 +250,37 @@
     <section class="hero" id="about">
       <svg class="hero-logo" viewBox="0 0 100 100" aria-label="Cloth Collective">
         <defs>
-          <!-- Hover halo (white outline) -->
-          <filter id="outlineGlowHover" x="-45%" y="-45%" width="190%" height="190%">
+          <!-- Base halo (kept but unused by default) -->
+          <filter id="outlineGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feColorMatrix in="SourceGraphic" type="matrix"
               values="0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 0 0
                       0 0 0 1 0" result="srcAlpha"/>
-            <feMorphology in="srcAlpha" operator="dilate" radius="3.5" result="expanded"/>
+            <feMorphology in="srcAlpha" operator="dilate" radius="1.2" result="expanded"/>
             <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
-            <feGaussianBlur in="ring" stdDeviation="6" result="ringBlur"/>
+            <feGaussianBlur in="ring" stdDeviation="2.4" result="ringBlur"/>
+            <feColorMatrix in="ringBlur" type="matrix"
+              values="1 1 1 0 0
+                      1 1 1 0 0
+                      1 1 1 0 0
+                      0 0 0 .35 0" result="ringTint"/>
+            <feMerge>
+              <feMergeNode in="ringTint"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <!-- Hover halo (white outline, stronger) -->
+          <filter id="outlineGlowHover" x="-40%" y="-40%" width="180%" height="180%">
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 0 0
+                      0 0 0 1 0" result="srcAlpha"/>
+            <feMorphology in="srcAlpha" operator="dilate" radius="2.8" result="expanded"/>
+            <feComposite in="expanded" in2="srcAlpha" operator="out" result="ring"/>
+            <feGaussianBlur in="ring" stdDeviation="5.5" result="ringBlur"/>
             <feColorMatrix in="ringBlur" type="matrix"
               values="1 1 1 0 0
                       1 1 1 0 0
@@ -266,7 +292,7 @@
             </feMerge>
           </filter>
         </defs>
-        <!-- No default filter; hover-only for desktop via CSS -->
+        <!-- No default filter; hover-only via CSS for desktop -->
         <image href="logo.svg?v=4" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
       </svg>
 
@@ -402,3 +428,4 @@
   </script>
 </body>
 </html>
+
