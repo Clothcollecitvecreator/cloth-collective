@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thanks — Cloth Collective</title>
+
+  <!-- Google Fonts (same as index.html) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#000;
+      --ink:#f5f5f5;
+      --muted:#bdbdbd;
+      --border:#1e1e1e;
+    }
+    body {
+      margin: 0;
+      font-family: 'Urbanist', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .wrap {
+      max-width: 600px;
+    }
+    h1 {
+      font-family: 'Shrikhand', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+    a {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: #111;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s ease, filter .2s ease;
+    }
+    a:hover {
+      background: #151515;
+      filter: brightness(1.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Thanks for signing up!</h1>
+    <p>You’re officially on the Cloth Collective waitlist.<br>
+       We’ll keep you updated on the launch and future drops — no spam, just the good stuff.</p>
+    <a href="/">← Back to home</a>
+  </div>
+</body>
+</html>
