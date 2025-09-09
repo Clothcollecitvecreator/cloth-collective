@@ -84,8 +84,8 @@
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(70vw, 700px); height:auto; display:block; margin-bottom:20px; }
 
-    /* Desktop-only hover animation + glow */
-    @media (hover: hover) and (pointer: fine) {
+    /* Desktop hover (only if device supports hover) */
+    @media (any-hover: hover) {
       .hero-logo {
         transition: transform .35s cubic-bezier(.2,.8,.2,1), filter .35s;
         transform-origin: center;
@@ -97,7 +97,21 @@
         cursor: pointer;
       }
     }
-    @keyframes heroBob { 0% { transform: translateY(-2px) scale(1.02) rotate(-0.2deg); } 100% { transform: translateY(-4px) scale(1.025) rotate(0.2deg); } }
+
+    /* Keyboard focus and touch fallback (via .glow) */
+    .hero-logo:focus-visible,
+    .hero-logo.glow {
+      outline: none;
+      transform: translateY(-2px) scale(1.02) rotate(-0.2deg);
+      animation: heroBob 1200ms ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.8)) drop-shadow(0 0 10px rgba(255,255,255,0.5));
+      cursor: pointer;
+    }
+
+    @keyframes heroBob {
+      0% { transform: translateY(-2px) scale(1.02) rotate(-0.2deg); }
+      100% { transform: translateY(-4px) scale(1.025) rotate(0.2deg); }
+    }
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -220,7 +234,7 @@
   <main class="wrap">
     <!-- HERO -->
     <section class="hero" id="about">
-      <img src="logo.svg?v=4" alt="Cloth Collective logo" class="hero-logo" />
+      <img src="logo.svg?v=4" alt="Cloth Collective logo" class="hero-logo" tabindex="0" />
 
       <div class="intro-blurb">
         <p>
@@ -247,14 +261,13 @@
         <div>
           <h3>Bring your label to the Collective</h3>
           <p style="line-height:1.6;">
-  Cloth Collective was built to shine a spotlight on independent creators. 
-  Whether you’re an up-and-coming streetwear brand, a niche label with a loyal 
-  following, or a designer just starting out, we want to give you a platform 
-  where your work is seen and celebrated. By joining, you’ll be part of a 
-  community that values originality, culture, and quality — with the support 
-  to grow alongside other labels shaping the future of fashion.
-</p>
-
+            Cloth Collective was built to shine a spotlight on independent creators. 
+            Whether you’re an up-and-coming streetwear brand, a niche label with a loyal 
+            following, or a designer just starting out, we want to give you a platform 
+            where your work is seen and celebrated. By joining, you’ll be part of a 
+            community that values originality, culture, and quality — with the support 
+            to grow alongside other labels shaping the future of fashion.
+          </p>
         </div>
         <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
       </div>
@@ -263,8 +276,7 @@
             method="POST"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
-         action="./thanks.html"
-
+            action="./thanks.html"
             class="tile">
 
         <!-- Netlify registration -->
@@ -421,9 +433,19 @@
     toggle.addEventListener('click', ()=>{ menu.classList.contains('open') ? closeMenu() : openMenu(); });
     document.addEventListener('click', e => { if(!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+
+    // ====== TOUCH FALLBACK FOR HERO GLOW ======
+    (function(){
+      const heroLogo = document.querySelector('.hero-logo');
+      // If the primary pointer can't hover, add a brief glow on tap
+      if (heroLogo && window.matchMedia('(hover: none)').matches) {
+        heroLogo.addEventListener('pointerdown', () => {
+          heroLogo.classList.add('glow');
+          setTimeout(() => heroLogo.classList.remove('glow'), 900);
+        }, { passive: true });
+      }
+    })();
   </script>
 </body>
 </html>
-
-
 
