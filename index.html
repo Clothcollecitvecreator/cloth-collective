@@ -84,31 +84,20 @@
     .hero{ display:flex; flex-direction:column; align-items:center; padding:56px 0 32px; text-align:center; }
     .hero-logo{ width:min(70vw, 700px); height:auto; display:block; margin-bottom:20px; }
 
-
-   /* Desktop-only hover animation + glow */
-@media (hover: hover) and (pointer: fine) {
-  .hero-logo {
-    transition:
-      transform .35s cubic-bezier(.2,.8,.2,1),
-      filter .35s;
-    transform-origin: center;
-  }
-  .hero-logo:hover {
-    transform: translateY(-2px) scale(1.02) rotate(-0.2deg);
-    animation: heroBob 1200ms ease-in-out infinite alternate;
-    filter:
-      drop-shadow(0 0 4px rgba(255,255,255,0.8))
-      drop-shadow(0 0 10px rgba(255,255,255,0.5));
-    cursor: pointer;
-  }
-}
-
-@keyframes heroBob {
-  0%   { transform: translateY(-2px) scale(1.02) rotate(-0.2deg); }
-  100% { transform: translateY(-4px) scale(1.025) rotate(0.2deg); }
-}
-
-
+    /* Desktop-only hover animation + glow */
+    @media (hover: hover) and (pointer: fine) {
+      .hero-logo {
+        transition: transform .35s cubic-bezier(.2,.8,.2,1), filter .35s;
+        transform-origin: center;
+      }
+      .hero-logo:hover {
+        transform: translateY(-2px) scale(1.02) rotate(-0.2deg);
+        animation: heroBob 1200ms ease-in-out infinite alternate;
+        filter: drop-shadow(0 0 4px rgba(255,255,255,0.8)) drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        cursor: pointer;
+      }
+    }
+    @keyframes heroBob { 0% { transform: translateY(-2px) scale(1.02) rotate(-0.2deg); } 100% { transform: translateY(-4px) scale(1.025) rotate(0.2deg); } }
 
     .intro-blurb{ max-width:720px; margin:0 auto 20px; }
     .intro-blurb p{ color:var(--muted); font-size:18px; line-height:1.6; margin:0; }
@@ -233,18 +222,18 @@
     <section class="hero" id="about">
       <img src="logo.svg?v=4" alt="Cloth Collective logo" class="hero-logo" />
 
-     <div class="intro-blurb">
-  <p>
-    ClothCollective is a curated marketplace for fashion brands across the spectrum — streetwear, urban, contemporary, vintage, alternative, indie, skate-inspired, and everything in between. Our goal is to bring together emerging and established labels that blend creativity, quality, and culture into wearable, on-trend pieces for today’s audience.
-  </p>
-</div>
+      <div class="intro-blurb">
+        <p>
+          ClothCollective is a curated marketplace for fashion brands across the spectrum — streetwear, urban, contemporary, vintage, alternative, indie, skate-inspired, and everything in between. Our goal is to bring together emerging and established labels that blend creativity, quality, and culture into wearable, on-trend pieces for today’s audience.
+        </p>
+      </div>
 
-<div class="countdown" id="countdown" data-hydrate>
-  <span class="pill" id="dd">00</span>
-  <span class="pill" id="hh">00</span>
-  <span class="pill" id="mm">00</span>
-  <span class="pill" id="ss">00</span>
-</div>
+      <div class="countdown" id="countdown" data-hydrate>
+        <span class="pill" id="dd">00</span>
+        <span class="pill" id="hh">00</span>
+        <span class="pill" id="mm">00</span>
+        <span class="pill" id="ss">00</span>
+      </div>
 
       <div class="progress" aria-label="Time until launch">
         <b id="progressBar" style="width:0%"></b>
@@ -252,71 +241,67 @@
       </div>
     </section>
 
-<!-- CTAs -->
-<section class="cta-row">
-  <div class="tile">
-    <div>
-      <h3>Bring your label to the Collective</h3>
-      <p>A platform built to showcase emerging labels.</p>
-    </div>
-    <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
-  </div>
+    <!-- CTAs -->
+    <section class="cta-row">
+      <div class="tile">
+        <div>
+          <h3>Bring your label to the Collective</h3>
+          <p>A platform built to showcase emerging labels.</p>
+        </div>
+        <a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLSfAaf5eR6PWV6EVRr28tujZUOkfZk5WMZa8_2a0ozw35wUWiA/viewform?usp=header" target="_blank">Apply today →</a>
+      </div>
 
-  <form name="launch-updates"
-        method="POST"
-        data-netlify="true"
-        netlify
-        data-netlify-honeypot="bot-field"
-        action="/thanks.html"
-        class="tile">
+      <form name="launch-updates"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            action="/thanks.html"
+            class="tile">
 
-    <!-- Netlify registration -->
-    <input type="hidden" name="form-name" value="launch-updates">
-    <p hidden>
-      <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
-    </p>
+        <!-- Netlify registration -->
+        <input type="hidden" name="form-name" value="launch-updates">
+        <p hidden>
+          <label>Don’t fill this out if you’re human: <input name="bot-field"></label>
+        </p>
 
-    <div>
-      <h3>Cloth Collective — Launch Updates & Drop Alerts</h3>
-      <p>Join the Cloth Collective waitlist to get launch day alerts, early access, and updates on future drops. No spam — just the good stuff.</p>
-    </div>
+        <div>
+          <h3>Cloth Collective — Launch Updates & Drop Alerts</h3>
+          <p>Join the Cloth Collective waitlist to get launch day alerts, early access, and updates on future drops. No spam — just the good stuff.</p>
+        </div>
 
-    <!-- Email (required) -->
-    <label for="email" style="margin-top:12px; font-weight:600; display:block;">Email Address <span aria-hidden="true">*</span></label>
-    <input id="email" type="email" name="email" required
-           placeholder="you@example.com"
-           aria-describedby="email-help"
-           style="margin-top:6px; padding:10px 14px; border-radius:999px; border:1px solid var(--border); background:#111; color:var(--ink); width:100%; max-width:320px;">
-    <small id="email-help" style="color:var(--accentDim); display:block; margin-top:6px;">
-      We’ll use this to send you launch day alerts and updates on new drops.
-    </small>
+        <!-- Email (required) -->
+        <label for="email" style="margin-top:12px; font-weight:600; display:block;">Email Address <span aria-hidden="true">*</span></label>
+        <input id="email" type="email" name="email" required
+               placeholder="you@example.com"
+               aria-describedby="email-help"
+               style="margin-top:6px; padding:10px 14px; border-radius:999px; border:1px solid var(--border); background:#111; color:var(--ink); width:100%; max-width:320px;">
+        <small id="email-help" style="color:var(--accentDim); display:block; margin-top:6px;">
+          We’ll use this to send you launch day alerts and updates on new drops.
+        </small>
 
-    <!-- How did you hear about us? (required) -->
-    <fieldset style="margin-top:14px; border:0; padding:0;">
-      <legend style="font-weight:600;">How did you hear about us? <span aria-hidden="true">*</span></legend>
+        <!-- How did you hear about us? (required) -->
+        <fieldset style="margin-top:14px; border:0; padding:0;">
+          <legend style="font-weight:600;">How did you hear about us? <span aria-hidden="true">*</span></legend>
 
-      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-        <input type="radio" name="referrer" value="Social media" required>
-        <span>Social media</span>
-      </label>
+          <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+            <input type="radio" name="referrer" value="Social media" required>
+            <span>Social media</span>
+          </label>
 
-      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-        <input type="radio" name="referrer" value="Word of mouth" required>
-        <span>Word of mouth</span>
-      </label>
+          <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+            <input type="radio" name="referrer" value="Word of mouth" required>
+            <span>Word of mouth</span>
+          </label>
 
-      <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-        <input type="radio" name="referrer" value="Commercial / Billboard / Poster" required>
-        <span>Commercial / Billboard / Poster</span>
-      </label>
-    </fieldset>
+          <label style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+            <input type="radio" name="referrer" value="Commercial / Billboard / Poster" required>
+            <span>Commercial / Billboard / Poster</span>
+          </label>
+        </fieldset>
 
-    <button type="submit" class="chip" style="margin-top:12px;">Stay in the loop →</button>
-  </form>
-</section>
-
-
-
+        <button type="submit" class="chip" style="margin-top:12px;">Stay in the loop →</button>
+      </form>
+    </section>
 
     <!-- Mystery grid -->
     <section>
@@ -338,111 +323,95 @@
     </div>
   </footer>
 
-<script> 
-  <!-- Netlify ghost form to register fields at build -->
-<form name="launch-updates" data-netlify="true" netlify hidden>
-  <input type="hidden" name="form-name" value="launch-updates" />
-  <input type="email" name="email" />
-  <input type="text" name="referrer" />
-  <input name="bot-field" />
-</form>
+  <script>
+    // ====== CONFIG ======
+    const ANNOUNCE_ISO = '2025-11-13T00:00:00-05:00'; // Announcement @ 12:00 AM ET
+    const LAUNCH_ISO   = '2025-12-01T00:00:00-05:00'; // Launch (Cyber Monday) @ 12:00 AM ET
+    const START_ISO    = '2025-09-01T00:00:00-04:00'; // Start of timeline
 
-  // ====== CONFIG ======
-  const ANNOUNCE_ISO = '2025-11-13T00:00:00-05:00'; // Announcement @ 12:00 AM ET
-  const LAUNCH_ISO   = '2025-12-01T00:00:00-05:00'; // Launch (Cyber Monday) @ 12:00 AM ET
-  const START_ISO    = '2025-09-01T00:00:00-04:00'; // Start of timeline (adjust if needed)
+    // ====== ELEMENTS ======
+    const dd = document.getElementById('dd');
+    const hh = document.getElementById('hh');
+    const mm = document.getElementById('mm');
+    const ss = document.getElementById('ss');
+    const label = document.getElementById('progressLabel');
+    const bar = document.getElementById('progressBar');
 
-  // ====== ELEMENTS ======
-  const dd = document.getElementById('dd');
-  const hh = document.getElementById('hh');
-  const mm = document.getElementById('mm');
-  const ss = document.getElementById('ss');
-  const label = document.getElementById('progressLabel');
-  const bar = document.getElementById('progressBar');
-
-  function fmt(n, suffix){ return String(n).padStart(2,'0') + suffix; }
-  function setPills(d='--d', h='--h', m='--m', s='--s'){
-    dd.textContent = d; hh.textContent = h; mm.textContent = m; ss.textContent = s;
-  }
-
-  function countdownTo(targetDate){
-    const now = new Date();
-    const diff = targetDate - now;
-    if (diff <= 0) return { done:true, d:0, h:0, m:0, s:0 };
-    const d = Math.floor(diff / (1000*60*60*24));
-    const h = Math.floor((diff / (1000*60*60)) % 24);
-    const m = Math.floor((diff / (1000*60)) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-    return { done:false, d, h, m, s };
-  }
-
-  function updateProgressTo(targetDate, startDate){
-    const total = targetDate - startDate;
-    const now = new Date();
-    const elapsed = Math.max(0, Math.min(total, now - startDate));
-    const pct = total > 0 ? (elapsed / total) * 100 : 0;
-    bar.style.width = pct.toFixed(3) + '%';
-    return pct;
-  }
-
-  function tick(){
-    const start = new Date(START_ISO);
-
-    // Phase 1: Announcement countdown
-    if (ANNOUNCE_ISO){
-      const announce = new Date(ANNOUNCE_ISO);
-      const a = countdownTo(announce);
-      if (!a.done){
-        setPills(fmt(a.d,'d'), fmt(a.h,'h'), fmt(a.m,'m'), fmt(a.s,'s'));
-        const pct = updateProgressTo(announce, start);
-        label.textContent = `Announcement in • ${pct.toFixed(1)}% to announcement`;
-        return;
-      }
+    function fmt(n, suffix){ return String(n).padStart(2,'0') + suffix; }
+    function setPills(d='--d', h='--h', m='--m', s='--s'){
+      dd.textContent = d; hh.textContent = h; mm.textContent = m; ss.textContent = s;
     }
 
-    // Phase 2: Launch countdown
-    if (LAUNCH_ISO){
-      const launch = new Date(LAUNCH_ISO);
-      const l = countdownTo(launch);
-      if (!l.done){
-        setPills(fmt(l.d,'d'), fmt(l.h,'h'), fmt(l.m,'m'), fmt(l.s,'s'));
-        const pct = updateProgressTo(launch, start);
-        label.textContent = `${pct.toFixed(1)}% to launch`;
-        return;
-      } else {
-        setPills('00d','00h','00m','00s');
-        bar.style.width = '100%';
-        label.textContent = 'Live now';
-        return;
-      }
+    function countdownTo(targetDate){
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) return { done:true, d:0, h:0, m:0, s:0 };
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff / (1000*60*60)) % 24);
+      const m = Math.floor((diff / (1000*60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      return { done:false, d, h, m, s };
     }
 
-    // Phase 3: No launch date yet
-    setPills('--d','--h','--m','--s');
-    bar.style.width = '0%';
-    label.textContent = 'Launch date TBD';
-  }
+    function updateProgressTo(targetDate, startDate){
+      const total = targetDate - startDate;
+      const now = new Date();
+      const elapsed = Math.max(0, Math.min(total, now - startDate));
+      const pct = total > 0 ? (elapsed / total) * 100 : 0;
+      bar.style.width = pct.toFixed(3) + '%';
+      return pct;
+    }
 
-  tick();
-  setInterval(tick, 1000);
-  document.getElementById('yr').textContent = new Date().getFullYear();
+    function tick(){
+      const start = new Date(START_ISO);
 
-  // ====== CONTACT MENU ======
-  const toggle = document.getElementById('contactToggle');
-  const menu = document.getElementById('contactMenu');
-  function closeMenu(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
-  function openMenu(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
-  toggle.addEventListener('click', ()=>{ menu.classList.contains('open') ? closeMenu() : openMenu(); });
-  document.addEventListener('click', e => { if(!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
-</script>
+      // Phase 1: Countdown to announcement
+      if (ANNOUNCE_ISO){
+        const announce = new Date(ANNOUNCE_ISO);
+        const a = countdownTo(announce);
+        if (!a.done){
+          setPills(fmt(a.d,'d'), fmt(a.h,'h'), fmt(a.m,'m'), fmt(a.s,'s'));
+          const pct = updateProgressTo(announce, start);
+          label.textContent = `Announcement in • ${pct.toFixed(1)}% to announcement`;
+          return;
+        }
+      }
 
+      // Phase 2: Countdown to launch
+      if (LAUNCH_ISO){
+        const launch = new Date(LAUNCH_ISO);
+        const l = countdownTo(launch);
+        if (!l.done){
+          setPills(fmt(l.d,'d'), fmt(l.h,'h'), fmt(l.m,'m'), fmt(l.s,'s'));
+          const pct = updateProgressTo(launch, start);
+          label.textContent = `${pct.toFixed(1)}% to launch`;
+          return;
+        } else {
+          setPills('00d','00h','00m','00s');
+          bar.style.width = '100%';
+          label.textContent = 'Live now';
+          return;
+        }
+      }
+
+      // Phase 3: No date
+      setPills('--d','--h','--m','--s');
+      bar.style.width = '0%';
+      label.textContent = 'Launch date TBD';
+    }
+
+    tick();
+    setInterval(tick, 1000);
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // ====== CONTACT MENU ======
+    const toggle = document.getElementById('contactToggle');
+    const menu = document.getElementById('contactMenu');
+    function closeMenu(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+    function openMenu(){ menu.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+    toggle.addEventListener('click', ()=>{ menu.classList.contains('open') ? closeMenu() : openMenu(); });
+    document.addEventListener('click', e => { if(!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
