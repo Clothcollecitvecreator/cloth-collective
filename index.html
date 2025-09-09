@@ -252,7 +252,7 @@
       </div>
     </section>
 
-  <!-- CTAs -->
+<!-- CTAs -->
 <section class="cta-row">
   <div class="tile">
     <div>
@@ -265,6 +265,7 @@
   <form name="launch-updates"
         method="POST"
         data-netlify="true"
+        netlify
         data-netlify-honeypot="bot-field"
         action="/thanks.html"
         class="tile">
@@ -313,7 +314,7 @@
     <button type="submit" class="chip" style="margin-top:12px;">Stay in the loop →</button>
   </form>
 </section>
- 
+
 
 
 
@@ -337,7 +338,15 @@
     </div>
   </footer>
 
-<script>
+<script> 
+  <!-- Netlify ghost form to register fields at build -->
+<form name="launch-updates" data-netlify="true" netlify hidden>
+  <input type="hidden" name="form-name" value="launch-updates" />
+  <input type="email" name="email" />
+  <input type="text" name="referrer" />
+  <input name="bot-field" />
+</form>
+
   // ====== CONFIG ======
   const ANNOUNCE_ISO = '2025-11-13T00:00:00-05:00'; // Announcement @ 12:00 AM ET
   const LAUNCH_ISO   = '2025-12-01T00:00:00-05:00'; // Launch (Cyber Monday) @ 12:00 AM ET
@@ -430,6 +439,7 @@
 
 </body>
 </html>
+
 
 
 
