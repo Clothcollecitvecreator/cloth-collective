@@ -434,18 +434,9 @@
     document.addEventListener('click', e => { if(!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu(); });
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
 
-    // ====== TOUCH FALLBACK FOR HERO GLOW ======
-    (function(){
-      const heroLogo = document.querySelector('.hero-logo');
-      // If the primary pointer can't hover, add a brief glow on tap
-      if (heroLogo && window.matchMedia('(hover: none)').matches) {
-        heroLogo.addEventListener('pointerdown', () => {
-          heroLogo.classList.add('glow');
-          setTimeout(() => heroLogo.classList.remove('glow'), 900);
-        }, { passive: true });
-      }
-    })();
+   
   </script>
 </body>
 </html>
+
 
